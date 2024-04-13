@@ -183,6 +183,7 @@ class AddFitRecordViewController: UIViewController {
 		
 		setupFitRecordScrollView()
 		setupFitRecordScrollContentView()
+		setupNavigationBar()
 	}
 	
 	private func setupFitRecordScrollView() {
@@ -276,11 +277,23 @@ class AddFitRecordViewController: UIViewController {
 		}
 	}
 	
+	private func setupNavigationBar() {
+		let saveButton = UIBarButtonItem(
+			barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped)
+		)
+		navigationItem.rightBarButtonItem = saveButton
+	}
+	
 	// MARK: - Touch Action
 	@objc func doneButtonTapped(_ sender: UIBarButtonItem) {
 		if activityTimeTextField.isFirstResponder {
 			activityTimeTextField.resignFirstResponder()
 		}
+	}
+	
+	@objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+		print("Save Button Tapped")
+		self.navigationController?.popViewController(animated: true)
 	}
 	
 	@objc func closeKeyboard(_ sender: UITapGestureRecognizer) {
