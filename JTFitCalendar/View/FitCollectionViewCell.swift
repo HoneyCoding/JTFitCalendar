@@ -8,7 +8,7 @@
 import Then
 import UIKit
 
-class FitTableViewCell: UITableViewCell {
+class FitCollectionViewCell: UICollectionViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
@@ -52,8 +52,8 @@ class FitTableViewCell: UITableViewCell {
 		commonInit()
 	}
 	
-	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
+	override init(frame: CGRect) {
+		super.init(frame: frame)
 		commonInit()
 	}
 	
