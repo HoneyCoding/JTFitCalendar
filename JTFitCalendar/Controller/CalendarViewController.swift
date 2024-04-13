@@ -33,6 +33,7 @@ class CalendarViewController: UIViewController {
 	}
 	
 	private func setupViews() {
+		view.backgroundColor = UIColor.systemBackground
 		setupCalendarView()
 		setupNavigationBar()
 	}
