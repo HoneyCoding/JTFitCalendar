@@ -6,6 +6,7 @@ target 'JTFitCalendar' do
   use_frameworks!
 
   # Pods for JTFitCalendar
+  pod 'FSCalendar'
   pod 'SnapKit', '~> 5.7.0'
   pod 'Then'
 end

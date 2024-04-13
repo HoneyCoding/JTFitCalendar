@@ -1,20 +1,24 @@
 PODS:
+  - FSCalendar (2.8.4)
   - SnapKit (5.7.1)
   - Then (3.0.0)
 
 DEPENDENCIES:
+  - FSCalendar
   - SnapKit (~> 5.7.0)
   - Then
 
 SPEC REPOS:
   trunk:
+    - FSCalendar
     - SnapKit
     - Then
 
 SPEC CHECKSUMS:
+  FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: 52605e796820f484fa129e57af3a84f353dfc602
+PODFILE CHECKSUM: f8351bc100f55d77e7aba9d28bd04aa7974e4ea6
 
 COCOAPODS: 1.12.1
