@@ -13,6 +13,7 @@ class MainTabBarController: UITabBarController {
 		super.viewDidLoad()
 		view.backgroundColor = UIColor.systemBackground
 		setupViewControllers()
+		setupTabBar()
 	}
 	
 	private func setupViewControllers() {
@@ -38,6 +39,15 @@ class MainTabBarController: UITabBarController {
 			[firstViewController, secondViewController, thirdViewController],
 			animated: false
 		)
+	}
+	
+	private func setupTabBar() {
+		let appearance = UITabBarAppearance()
+		appearance.configureWithOpaqueBackground()
+		appearance.shadowColor = UIColor.clear
+		appearance.backgroundColor = UIColor.systemBackground
+		tabBar.standardAppearance = appearance
+		tabBar.scrollEdgeAppearance = appearance
 	}
 	
 	private func createNavigationController(
