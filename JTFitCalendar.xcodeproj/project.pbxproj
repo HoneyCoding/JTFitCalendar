@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		6BFDDF512BCA5668001CA40E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDDF502BCA5668001CA40E /* AppDelegate.swift */; };
 		6BFDDF532BCA5668001CA40E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDDF522BCA5668001CA40E /* SceneDelegate.swift */; };
-		6BFDDF552BCA5668001CA40E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDDF542BCA5668001CA40E /* ViewController.swift */; };
-		6BFDDF582BCA5668001CA40E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF572BCA5668001CA40E /* Base */; };
+		6BFDDF552BCA5668001CA40E /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFDDF542BCA5668001CA40E /* MainTabBarController.swift */; };
 		6BFDDF5A2BCA5669001CA40E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF592BCA5669001CA40E /* Assets.xcassets */; };
 		6BFDDF5D2BCA5669001CA40E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF5C2BCA5669001CA40E /* Base */; };
 		F379926166487E705B355EB7 /* Pods_JTFitCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76303FE6D0CFFBC2D1D715DB /* Pods_JTFitCalendar.framework */; };
@@ -22,8 +21,7 @@
 		6BFDDF4D2BCA5668001CA40E /* JTFitCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFitCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BFDDF502BCA5668001CA40E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BFDDF522BCA5668001CA40E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6BFDDF542BCA5668001CA40E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6BFDDF572BCA5668001CA40E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6BFDDF542BCA5668001CA40E /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		6BFDDF592BCA5669001CA40E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6BFDDF5C2BCA5669001CA40E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6BFDDF5E2BCA5669001CA40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,8 +46,34 @@
 				08E3056F98F60D8AAF807D5B /* Pods-JTFitCalendar.debug.xcconfig */,
 				2DCEDE8ABEB45D153C72C6C6 /* Pods-JTFitCalendar.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6B2C66042BCA5BB2004DFB9A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6BFDDF502BCA5668001CA40E /* AppDelegate.swift */,
+				6BFDDF522BCA5668001CA40E /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		6B2C66052BCA5BC2004DFB9A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6BFDDF592BCA5669001CA40E /* Assets.xcassets */,
+				6BFDDF5B2BCA5669001CA40E /* LaunchScreen.storyboard */,
+				6BFDDF5E2BCA5669001CA40E /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6B2C66062BCA5BC9004DFB9A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6BFDDF542BCA5668001CA40E /* MainTabBarController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		6BFDDF442BCA5668001CA40E = {
@@ -73,13 +97,9 @@
 		6BFDDF4F2BCA5668001CA40E /* JTFitCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				6BFDDF502BCA5668001CA40E /* AppDelegate.swift */,
-				6BFDDF522BCA5668001CA40E /* SceneDelegate.swift */,
-				6BFDDF542BCA5668001CA40E /* ViewController.swift */,
-				6BFDDF562BCA5668001CA40E /* Main.storyboard */,
-				6BFDDF592BCA5669001CA40E /* Assets.xcassets */,
-				6BFDDF5B2BCA5669001CA40E /* LaunchScreen.storyboard */,
-				6BFDDF5E2BCA5669001CA40E /* Info.plist */,
+				6B2C66042BCA5BB2004DFB9A /* App */,
+				6B2C66062BCA5BC9004DFB9A /* Controller */,
+				6B2C66052BCA5BC2004DFB9A /* Resources */,
 			);
 			path = JTFitCalendar;
 			sourceTree = "<group>";
@@ -154,7 +174,6 @@
 			files = (
 				6BFDDF5A2BCA5669001CA40E /* Assets.xcassets in Resources */,
 				6BFDDF5D2BCA5669001CA40E /* Base in Resources */,
-				6BFDDF582BCA5668001CA40E /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,7 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BFDDF552BCA5668001CA40E /* ViewController.swift in Sources */,
+				6BFDDF552BCA5668001CA40E /* MainTabBarController.swift in Sources */,
 				6BFDDF512BCA5668001CA40E /* AppDelegate.swift in Sources */,
 				6BFDDF532BCA5668001CA40E /* SceneDelegate.swift in Sources */,
 			);
@@ -216,14 +235,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6BFDDF562BCA5668001CA40E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6BFDDF572BCA5668001CA40E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		6BFDDF5B2BCA5669001CA40E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -272,7 +283,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -335,7 +346,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -364,10 +375,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8M99DT962T;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JTFitCalendar/Info.plist;
+				INFOPLIST_FILE = JTFitCalendar/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -398,10 +408,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8M99DT962T;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = JTFitCalendar/Info.plist;
+				INFOPLIST_FILE = JTFitCalendar/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
