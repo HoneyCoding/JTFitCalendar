@@ -90,6 +90,14 @@ class CalendarViewController: UIViewController {
 		}
 		addFitItemFloatingButton.layer.cornerRadius = 48 / 2
 		addFitItemFloatingButton.clipsToBounds = true
+		addFitItemFloatingButton.addTarget(
+			self, action: #selector(pushToAddFitItemViewController), for: .touchUpInside
+		)
+	}
+	
+	@objc private func pushToAddFitItemViewController(_ sender: UIButton) {
+		let mainTabBarController = parent?.parent
+		mainTabBarController?.navigationController?.pushViewController(AddFitItemViewController(), animated: true)
 	}
 }
 
