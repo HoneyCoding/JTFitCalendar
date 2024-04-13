@@ -5,6 +5,7 @@
 //  Created by 김진태 on 4/13/24.
 //
 
+import PhotosUI
 import SnapKit
 import Then
 import UIKit
@@ -181,6 +182,12 @@ class AddFitRecordViewController: UIViewController {
 		let closeKeyboardGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
 		view.addGestureRecognizer(closeKeyboardGestureRecognizer)
 		
+		let fitImageViewTapGestureRecognizer = UITapGestureRecognizer(
+			target: self, action: #selector(fitImageViewTapped)
+		)
+		fitImageView.addGestureRecognizer(fitImageViewTapGestureRecognizer)
+		fitImageView.isUserInteractionEnabled = true
+		
 		setupFitRecordScrollView()
 		setupFitRecordScrollContentView()
 		setupNavigationBar()
@@ -296,6 +303,15 @@ class AddFitRecordViewController: UIViewController {
 		self.navigationController?.popViewController(animated: true)
 	}
 	
+	@objc func fitImageViewTapped(_ sender: UITapGestureRecognizer) {
+		var configuration = PHPickerConfiguration()
+		configuration.filter = .images
+		configuration.selectionLimit = 1
+		let pickerViewController = PHPickerViewController(configuration: configuration)
+		pickerViewController.delegate = self
+		self.present(pickerViewController, animated: true)
+	}
+	
 	@objc func closeKeyboard(_ sender: UITapGestureRecognizer) {
 		view.endEditing(true)
 	}
@@ -374,6 +390,29 @@ extension AddFitRecordViewController: UITextViewDelegate {
 		if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
 			textView.text = activityResultTextViewPlaceholder
 			textView.textColor = UIColor.secondaryLabel
+		}
+	}
+}
+
+extension AddFitRecordViewController: PHPickerViewControllerDelegate {
+	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+		picker.dismiss(animated: true)
+		
+		guard let itemProvider = results.first?.itemProvider else { return }
+		guard itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+		itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+			if let error {
+				DispatchQueue.main.async {
+					self.showAlert(message: "이미지를 선택하는 도중 에러가 발생했습니다. \(error.localizedDescription)")
+				}
+				return
+			}
+			DispatchQueue.main.async { [weak self] in
+				guard let self else { return }
+				guard let selectedImage = image as? UIImage else { return }
+				self.fitImageView.image = selectedImage
+				self.addPhotoLabel.isHidden = true
+			}
 		}
 	}
 }
