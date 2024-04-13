@@ -32,6 +32,8 @@ class CalendarViewController: UIViewController {
 		flowLayout.scrollDirection = .vertical
 		flowLayout.minimumInteritemSpacing = 8
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+		collectionView.delegate = self
+		collectionView.dataSource = self
 		return collectionView
 	}()
 	
@@ -89,5 +91,19 @@ extension CalendarViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withType: FitCollectionViewCell.self, for: indexPath)
 		return cell
+	}
+}
+
+extension CalendarViewController: UICollectionViewDelegateFlowLayout {
+	func collectionView(
+		_ collectionView: UICollectionView,
+		layout collectionViewLayout: UICollectionViewLayout,
+		sizeForItemAt indexPath: IndexPath
+	) -> CGSize {
+		let width: CGFloat = collectionView.frame.width - 12 * 2
+		let height: CGFloat = 240
+		let dummyCell = FitCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+		let estimatedSize = dummyCell.systemLayoutSizeFitting(CGSize(width: width, height: height))
+		return CGSize(width: width, height: estimatedSize.height)
 	}
 }
