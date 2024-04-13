@@ -19,6 +19,10 @@ class CalendarViewController: UIViewController {
 		$0.weekdayHeight = 36
 		$0.headerHeight = 0
 		$0.delegate = self
+		$0.appearance.titleDefaultColor = UIColor.label
+		$0.appearance.todayColor = .clear
+		$0.appearance.weekdayTextColor = UIColor.secondaryLabel
+		$0.appearance.titleTodayColor = UIColor.label
 	}
 	
 	private let navigationBarTitleDateFormatter = DateFormatter().then {
