@@ -13,9 +13,12 @@
 		6BFDDF582BCA5668001CA40E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF572BCA5668001CA40E /* Base */; };
 		6BFDDF5A2BCA5669001CA40E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF592BCA5669001CA40E /* Assets.xcassets */; };
 		6BFDDF5D2BCA5669001CA40E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6BFDDF5C2BCA5669001CA40E /* Base */; };
+		F379926166487E705B355EB7 /* Pods_JTFitCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76303FE6D0CFFBC2D1D715DB /* Pods_JTFitCalendar.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08E3056F98F60D8AAF807D5B /* Pods-JTFitCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JTFitCalendar.debug.xcconfig"; path = "Target Support Files/Pods-JTFitCalendar/Pods-JTFitCalendar.debug.xcconfig"; sourceTree = "<group>"; };
+		2DCEDE8ABEB45D153C72C6C6 /* Pods-JTFitCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JTFitCalendar.release.xcconfig"; path = "Target Support Files/Pods-JTFitCalendar/Pods-JTFitCalendar.release.xcconfig"; sourceTree = "<group>"; };
 		6BFDDF4D2BCA5668001CA40E /* JTFitCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTFitCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BFDDF502BCA5668001CA40E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BFDDF522BCA5668001CA40E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +27,7 @@
 		6BFDDF592BCA5669001CA40E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6BFDDF5C2BCA5669001CA40E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6BFDDF5E2BCA5669001CA40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76303FE6D0CFFBC2D1D715DB /* Pods_JTFitCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JTFitCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F379926166487E705B355EB7 /* Pods_JTFitCalendar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		156BF16B3563E30432E978E1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				08E3056F98F60D8AAF807D5B /* Pods-JTFitCalendar.debug.xcconfig */,
+				2DCEDE8ABEB45D153C72C6C6 /* Pods-JTFitCalendar.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		6BFDDF442BCA5668001CA40E = {
 			isa = PBXGroup;
 			children = (
 				6BFDDF4F2BCA5668001CA40E /* JTFitCalendar */,
 				6BFDDF4E2BCA5668001CA40E /* Products */,
+				156BF16B3563E30432E978E1 /* Pods */,
+				F80FC9E9DE8C202759FA5391 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +84,14 @@
 			path = JTFitCalendar;
 			sourceTree = "<group>";
 		};
+		F80FC9E9DE8C202759FA5391 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				76303FE6D0CFFBC2D1D715DB /* Pods_JTFitCalendar.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6BFDDF612BCA5669001CA40E /* Build configuration list for PBXNativeTarget "JTFitCalendar" */;
 			buildPhases = (
+				289240F52331A954766071E3 /* [CP] Check Pods Manifest.lock */,
 				6BFDDF492BCA5668001CA40E /* Sources */,
 				6BFDDF4A2BCA5668001CA40E /* Frameworks */,
 				6BFDDF4B2BCA5668001CA40E /* Resources */,
+				7D52F374DF4F06F9E76725B8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +159,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		289240F52331A954766071E3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JTFitCalendar-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D52F374DF4F06F9E76725B8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JTFitCalendar/Pods-JTFitCalendar-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JTFitCalendar/Pods-JTFitCalendar-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JTFitCalendar/Pods-JTFitCalendar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6BFDDF492BCA5668001CA40E /* Sources */ = {
@@ -287,6 +356,7 @@
 		};
 		6BFDDF622BCA5669001CA40E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08E3056F98F60D8AAF807D5B /* Pods-JTFitCalendar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -320,6 +390,7 @@
 		};
 		6BFDDF632BCA5669001CA40E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DCEDE8ABEB45D153C72C6C6 /* Pods-JTFitCalendar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
