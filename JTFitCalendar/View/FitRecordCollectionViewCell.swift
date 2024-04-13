@@ -64,7 +64,7 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 	private func setupViews() {
 		contentView.layer.cornerRadius = 8
 		contentView.clipsToBounds = true
-		contentView.backgroundColor = UIColor.systemGray5
+		contentView.backgroundColor = UIColor.jtGray
 		
 		contentView.addSubview(activityImageView)
 		let activityImageViewHeight: CGFloat = activityImageView.image != nil ? maxActivityImageViewHeight : 0
