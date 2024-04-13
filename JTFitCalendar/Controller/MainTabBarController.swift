@@ -25,7 +25,7 @@ class MainTabBarController: UITabBarController {
 		
 		let secondViewController = createNavigationController(
 			image: UIImage(systemName: "line.3.horizontal"),
-			title: "피트 리스트",
+			title: "기록 목록",
 			rootViewController: FitListViewController()
 		)
 		

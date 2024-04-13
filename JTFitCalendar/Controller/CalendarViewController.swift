@@ -79,7 +79,7 @@ class CalendarViewController: UIViewController {
 			make.leading.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
-		fitListView.register(withType: FitCollectionViewCell.self)
+		fitListView.register(withType: FitRecordCollectionViewCell.self)
 	}
 	
 	private func setupNavigationBar() {
@@ -101,7 +101,7 @@ class CalendarViewController: UIViewController {
 	
 	@objc private func pushToAddFitItemViewController(_ sender: UIButton) {
 		let mainTabBarController = parent?.parent
-		mainTabBarController?.navigationController?.pushViewController(AddFitItemViewController(), animated: true)
+		mainTabBarController?.navigationController?.pushViewController(AddFitRecordViewController(), animated: true)
 	}
 }
 
@@ -119,7 +119,7 @@ extension CalendarViewController: UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withType: FitCollectionViewCell.self, for: indexPath)
+		let cell = collectionView.dequeueReusableCell(withType: FitRecordCollectionViewCell.self, for: indexPath)
 		return cell
 	}
 }
@@ -132,7 +132,7 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 	) -> CGSize {
 		let width: CGFloat = collectionView.frame.width - 12 * 2
 		let height: CGFloat = 240
-		let dummyCell = FitCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+		let dummyCell = FitRecordCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
 		let estimatedSize = dummyCell.systemLayoutSizeFitting(CGSize(width: width, height: height))
 		return CGSize(width: width, height: estimatedSize.height)
 	}

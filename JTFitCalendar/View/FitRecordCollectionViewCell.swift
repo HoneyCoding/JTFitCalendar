@@ -8,7 +8,7 @@
 import Then
 import UIKit
 
-class FitCollectionViewCell: UICollectionViewCell {
+class FitRecordCollectionViewCell: UICollectionViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
