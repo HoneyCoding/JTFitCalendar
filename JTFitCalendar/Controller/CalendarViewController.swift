@@ -27,6 +27,14 @@ class CalendarViewController: UIViewController {
 		$0.timeZone = TimeZone(identifier: "KST")
 	}
 	
+	private lazy var fitListView: UICollectionView = {
+		let flowLayout = UICollectionViewFlowLayout()
+		flowLayout.scrollDirection = .vertical
+		flowLayout.minimumInteritemSpacing = 8
+		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+		return collectionView
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupViews()
@@ -35,6 +43,7 @@ class CalendarViewController: UIViewController {
 	private func setupViews() {
 		view.backgroundColor = UIColor.systemBackground
 		setupCalendarView()
+		setupFitListView()
 		setupNavigationBar()
 	}
 	
@@ -49,6 +58,16 @@ class CalendarViewController: UIViewController {
 		calendarView.select(Date.now)
 	}
 	
+	private func setupFitListView() {
+		view.addSubview(fitListView)
+		fitListView.snp.makeConstraints { make in
+			make.top.equalTo(calendarView.snp.bottom)
+			make.leading.trailing.equalToSuperview()
+			make.bottom.equalToSuperview()
+		}
+		fitListView.register(withType: FitCollectionViewCell.self)
+	}
+	
 	private func setupNavigationBar() {
 		navigationItem.title = navigationBarTitleDateFormatter.string(from: calendarView.currentPage)
 	}
@@ -59,5 +78,16 @@ extension CalendarViewController: FSCalendarDelegate {
 		let currentPage = calendar.currentPage
 		
 		navigationItem.title = navigationBarTitleDateFormatter.string(from: currentPage)
+	}
+}
+
+extension CalendarViewController: UICollectionViewDataSource {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 6
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withType: FitCollectionViewCell.self, for: indexPath)
+		return cell
 	}
 }
