@@ -34,8 +34,15 @@ class CalendarViewController: UIViewController {
 		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
 		collectionView.delegate = self
 		collectionView.dataSource = self
+		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
 		return collectionView
 	}()
+	
+	private let addFitItemFloatingButton: UIButton = UIButton(type: .system).then {
+		$0.tintColor = UIColor.white
+		$0.backgroundColor = UIColor.systemBlue
+		$0.setImage(UIImage(systemName: "plus"), for: .normal)
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -47,6 +54,7 @@ class CalendarViewController: UIViewController {
 		setupCalendarView()
 		setupFitListView()
 		setupNavigationBar()
+		setupAddFitItemFloatingButton()
 	}
 	
 	private func setupCalendarView() {
@@ -72,6 +80,16 @@ class CalendarViewController: UIViewController {
 	
 	private func setupNavigationBar() {
 		navigationItem.title = navigationBarTitleDateFormatter.string(from: calendarView.currentPage)
+	}
+	
+	private func setupAddFitItemFloatingButton() {
+		view.addSubview(addFitItemFloatingButton)
+		addFitItemFloatingButton.snp.makeConstraints { make in
+			make.width.height.equalTo(48)
+			make.bottom.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+		}
+		addFitItemFloatingButton.layer.cornerRadius = 48 / 2
+		addFitItemFloatingButton.clipsToBounds = true
 	}
 }
 
