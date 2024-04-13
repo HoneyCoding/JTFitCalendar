@@ -16,22 +16,37 @@ class MainTabBarController: UITabBarController {
 	}
 	
 	private func setupViewControllers() {
-		let calendarViewController = CalendarViewController()
-		calendarViewController.tabBarItem.title = "캘린더"
-		calendarViewController.tabBarItem.image = UIImage(systemName: "calendar")
+		let firstViewController = createNavigationController(
+			image: UIImage(systemName: "calendar"), 
+			title: "캘린더",
+			rootViewController: CalendarViewController()
+		)
 		
-		let fitListViewController = FitListViewController()
-		fitListViewController.tabBarItem.title = "피트 리스트"
-		fitListViewController.tabBarItem.image = UIImage(systemName: "line.3.horizontal")
+		let secondViewController = createNavigationController(
+			image: UIImage(systemName: "line.3.horizontal"),
+			title: "피트 리스트",
+			rootViewController: FitListViewController()
+		)
 		
-		let settingsViewController = SettingsViewController()
-		settingsViewController.tabBarItem.title = "설정"
-		settingsViewController.tabBarItem.image = UIImage(systemName: "gearshape.fill")
+		let thirdViewController = createNavigationController(
+			image: UIImage(systemName: "gearshape.fill"),
+			title: "설정",
+			rootViewController: SettingsViewController()
+		)
 		
 		self.setViewControllers(
-			[calendarViewController, fitListViewController, settingsViewController],
+			[firstViewController, secondViewController, thirdViewController],
 			animated: false
 		)
+	}
+	
+	private func createNavigationController(
+		image: UIImage?, title: String?, rootViewController: UIViewController
+	) -> UINavigationController {
+		let navigationController = UINavigationController(rootViewController: rootViewController)
+		navigationController.tabBarItem.title = title
+		navigationController.tabBarItem.image = image
+		return navigationController
 	}
 	
 }
