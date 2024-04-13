@@ -7,6 +7,7 @@ target 'JTFitCalendar' do
 
   # Pods for JTFitCalendar
   pod 'FSCalendar'
+  pod 'IQKeyboardManagerSwift'
   pod 'SnapKit', '~> 5.7.0'
   pod 'Then'
 end
