@@ -360,7 +360,7 @@ extension AddFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSour
 		case 2:
 			seconds = row
 		default:
-			break;
+			break
 		}
 		
 		var activityTimeText = ""
