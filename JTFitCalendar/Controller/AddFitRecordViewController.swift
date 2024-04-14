@@ -280,7 +280,7 @@ class AddFitRecordViewController: UIViewController {
 			make.top.equalTo(activityResultLabel.snp.bottom).offset(8)
 			make.horizontalEdges.equalTo(activityResultLabel)
 			make.height.equalTo(160)
-			make.bottom.equalToSuperview()
+			make.bottom.equalToSuperview().inset(16)
 		}
 	}
 	
