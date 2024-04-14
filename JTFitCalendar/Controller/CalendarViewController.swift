@@ -135,6 +135,8 @@ extension CalendarViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withType: FitRecordCollectionViewCell.self, for: indexPath)
+		let target = fitnessLogs[indexPath.item]
+		cell.configure(with: target)
 		return cell
 	}
 }
@@ -148,6 +150,10 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 		let width: CGFloat = collectionView.frame.width - 12 * 2
 		let height: CGFloat = 240
 		let dummyCell = FitRecordCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
+		
+		let target = fitnessLogs[indexPath.item]
+		dummyCell.configure(with: target)
+		
 		let estimatedSize = dummyCell.systemLayoutSizeFitting(CGSize(width: width, height: height))
 		return CGSize(width: width, height: estimatedSize.height)
 	}
