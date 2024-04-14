@@ -326,6 +326,8 @@ class AddFitRecordViewController: UIViewController {
 			return
 		}
 		
+		let fitnessResult = (activityResultTextView.text == activityResultTextViewPlaceholder) ? nil : activityResultTextView.text
+		
 		DatabaseManager.shared.insertFitnessLog(
 			date: date,
 			imageData: fitImageView.image?.pngData(),
@@ -334,7 +336,7 @@ class AddFitRecordViewController: UIViewController {
 			activityTimeSeconds: seconds,
 			exerciseDistance: Double(activityDistanceTextField.text ?? "0.0"),
 			consumedCalorie: Double(consumedCalorieTextField.text ?? "0.0"),
-			fitnessResult: activityResultTextView.text
+			fitnessResult: fitnessResult
 		)
 		self.navigationController?.popViewController(animated: true)
 	}
