@@ -300,6 +300,10 @@ class AddFitRecordViewController: UIViewController {
 			barButtonSystemItem: .save, target: self, action: #selector(saveButtonTapped)
 		)
 		navigationItem.rightBarButtonItem = saveButton
+		
+		let formatter = DateFormatter()
+		formatter.dateFormat = "yyyy년 MM월 dd일"
+		navigationItem.title = formatter.string(from: date)
 	}
 	
 	// MARK: - Touch Action
