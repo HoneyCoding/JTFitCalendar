@@ -48,6 +48,8 @@ class CalendarViewController: UIViewController {
 		$0.setImage(UIImage(systemName: "plus"), for: .normal)
 	}
 	
+	var fitnessLogs: [FitnessLogEntity] = []
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupViews()
@@ -80,6 +82,7 @@ class CalendarViewController: UIViewController {
 			make.bottom.equalToSuperview()
 		}
 		fitListView.register(withType: FitRecordCollectionViewCell.self)
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
 	}
 	
 	private func setupNavigationBar() {
@@ -118,11 +121,16 @@ extension CalendarViewController: FSCalendarDelegate {
 		
 		navigationItem.title = navigationBarTitleDateFormatter.string(from: currentPage)
 	}
+	
+	func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: date)
+		fitListView.reloadData()
+	}
 }
 
 extension CalendarViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 6
+		return fitnessLogs.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
