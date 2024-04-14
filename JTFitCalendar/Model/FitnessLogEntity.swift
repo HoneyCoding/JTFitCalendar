@@ -8,8 +8,16 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(FitnessLogEntity)
 public class FitnessLogEntity: NSManagedObject {
-
+	var image: UIImage? {
+		get {
+			guard let imageData else { return nil }
+			return UIImage(data: imageData)
+		} set {
+			self.imageData = newValue?.pngData()
+		}
+	}
 }
