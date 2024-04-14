@@ -49,6 +49,29 @@ final class DatabaseManager {
 		saveChanges()
 	}
 	
+	func fetchFitnessLogs(for date: Date? = nil) -> [FitnessLogEntity] {
+		let request = FitnessLogEntity.fetchRequest()
+		
+		if let date {
+			let beginDate = Calendar.current.startOfDay(for: date)
+			if let nextDate = Calendar.current.date(byAdding: .day, value: 1, to: beginDate) {
+				let predicate = NSPredicate(
+					format: "date >= %@ AND date < %@", beginDate as NSDate, nextDate as NSDate
+				)
+				request.predicate = predicate
+			}
+		}
+		
+		let sortByDate = NSSortDescriptor(keyPath: \FitnessLogEntity.date, ascending: true)
+		request.sortDescriptors = [sortByDate]
+		
+		do {
+			return try mainContext.fetch(request)
+		} catch {
+			return []
+		}
+	}
+	
 	func saveChanges() {
 		if mainContext.hasChanges {
 			mainContext.perform { [weak self] in
