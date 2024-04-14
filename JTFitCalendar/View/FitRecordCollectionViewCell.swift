@@ -5,6 +5,7 @@
 //  Created by 김진태 on 4/13/24.
 //
 
+import SnapKit
 import Then
 import UIKit
 
@@ -12,6 +13,8 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
+		$0.layer.cornerRadius = 4
+		$0.clipsToBounds = true
 	}
 	private let activityTimeLabel: UILabel = UILabel().then {
 		$0.text = "활동 시간"
@@ -20,18 +23,16 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 	private let activityTimeDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14)
 	}
+	
+	private let exerciseResultDisplayLabel: UILabel = UILabel().then {
+		$0.font = UIFont.systemFont(ofSize: 14)
+	}
+	
 	private let distanceLabel: UILabel = UILabel().then {
 		$0.text = "주행 거리"
 		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	private let distanceDisplayLabel: UILabel = UILabel().then {
-		$0.font = UIFont.systemFont(ofSize: 14)
-	}
-	private let weightLabel: UILabel = UILabel().then {
-		$0.text = "몸무게"
-		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-	}
-	private let weightDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	private let calorieLabel: UILabel = UILabel().then {
@@ -45,7 +46,9 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	
-	private let maxActivityImageViewHeight: CGFloat = 280
+	private let maxActivityImageViewHeight: CGFloat = 200
+	
+	var exerciseResultDisplayLabelZeroHeightConstraint: Constraint?
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
@@ -70,13 +73,21 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 		let activityImageViewHeight: CGFloat = activityImageView.image != nil ? maxActivityImageViewHeight : 0
 		activityImageView.snp.makeConstraints { make in
 			make.top.equalToSuperview().offset(12)
-			make.leading.trailing.equalToSuperview().inset(12)
+			make.leading.trailing.equalToSuperview().inset(24)
 			make.height.equalTo(activityImageViewHeight)
 		}
 		
+		contentView.addSubview(exerciseResultDisplayLabel)
+		exerciseResultDisplayLabel.snp.makeConstraints { make in
+			make.top.equalTo(activityImageView.snp.bottom).offset(12)
+			make.leading.trailing.equalTo(activityImageView)
+			exerciseResultDisplayLabelZeroHeightConstraint = make.height.equalTo(0).constraint
+		}
+		exerciseResultDisplayLabelZeroHeightConstraint?.isActive = false
+		
 		contentView.addSubview(activityTimeLabel)
 		activityTimeLabel.snp.makeConstraints { make in
-			make.top.equalTo(activityImageView.snp.bottom).offset(12)
+			make.top.equalTo(exerciseResultDisplayLabel.snp.bottom).offset(12)
 			make.leading.equalTo(activityImageView)
 		}
 		activityTimeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -100,30 +111,17 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 			make.trailing.equalTo(activityTimeDisplayLabel)
 		}
 		
-		contentView.addSubview(weightLabel)
-		weightLabel.snp.makeConstraints { make in
-			make.top.equalTo(distanceLabel.snp.bottom).offset(12)
-			make.leading.equalTo(distanceLabel)
-		}
-		weightLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		contentView.addSubview(weightDisplayLabel)
-		weightDisplayLabel.snp.makeConstraints { make in
-			make.top.equalTo(weightLabel)
-			make.leading.equalTo(distanceDisplayLabel)
-			make.trailing.equalTo(distanceDisplayLabel)
-		}
-		
 		contentView.addSubview(calorieLabel)
 		calorieLabel.snp.makeConstraints { make in
-			make.top.equalTo(weightLabel.snp.bottom).offset(12)
-			make.leading.equalTo(weightLabel)
+			make.top.equalTo(distanceLabel.snp.bottom).offset(12)
+			make.leading.equalTo(distanceLabel)
 		}
 		calorieLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		contentView.addSubview(calorieDisplayLabel)
 		calorieDisplayLabel.snp.makeConstraints { make in
 			make.top.equalTo(calorieLabel)
-			make.leading.equalTo(weightDisplayLabel)
-			make.trailing.equalTo(weightDisplayLabel)
+			make.leading.equalTo(distanceDisplayLabel)
+			make.trailing.equalTo(distanceDisplayLabel)
 		}
 		
 		contentView.addSubview(dateLabel)
@@ -132,5 +130,30 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 			make.leading.trailing.equalTo(activityImageView)
 			make.bottom.equalToSuperview().offset(-12)
 		}
+	}
+	
+	func configure(with fitnessLogEntity: FitnessLogEntity) {
+		if fitnessLogEntity.image == nil {
+			activityImageView.image = nil
+			activityImageView.snp.updateConstraints { make in
+				make.height.equalTo(0)
+			}
+		} else {
+			activityImageView.image = fitnessLogEntity.image
+			activityImageView.snp.updateConstraints { make in
+				make.height.equalTo(maxActivityImageViewHeight)
+			}
+		}
+		if fitnessLogEntity.result?.isEmpty == false {
+			exerciseResultDisplayLabel.text = fitnessLogEntity.result
+			exerciseResultDisplayLabelZeroHeightConstraint?.isActive = false
+		} else {
+			exerciseResultDisplayLabel.text = nil
+			exerciseResultDisplayLabelZeroHeightConstraint?.isActive = true
+		}
+		activityTimeDisplayLabel.text = fitnessLogEntity.activityTimeText?.isEmpty == true ? "없음" : fitnessLogEntity.activityTimeText
+		distanceDisplayLabel.text = fitnessLogEntity.exerciseDistance == 0.0 ? "없음" : "\(fitnessLogEntity.exerciseDistance) km"
+		calorieDisplayLabel.text = fitnessLogEntity.consumedCalorie == 0.0 ? "없음" : "\(fitnessLogEntity.consumedCalorie) kcal"
+		dateLabel.text = fitnessLogEntity.date?.formatted()
 	}
 }
