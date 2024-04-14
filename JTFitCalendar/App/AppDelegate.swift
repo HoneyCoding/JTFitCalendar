@@ -5,8 +5,8 @@
 //  Created by 김진태 on 4/13/24.
 //
 
-import UIKit
 import IQKeyboardManagerSwift
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
