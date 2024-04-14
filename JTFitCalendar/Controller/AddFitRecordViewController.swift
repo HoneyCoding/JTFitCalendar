@@ -317,7 +317,7 @@ class AddFitRecordViewController: UIViewController {
 	}
 }
 
-// MARK: - UIPickerViewDelegate, UIPickerVIewDataSource
+// MARK: - UIPickerViewDelegate, UIPickerViewDataSource
 extension AddFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -379,6 +379,8 @@ extension AddFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSour
 	}
 }
 
+// MARK: - UITextViewDelegate
+// UITextView에 placeholder를 추가하기 위해 작성한 코드이다.
 extension AddFitRecordViewController: UITextViewDelegate {
 	func textViewDidBeginEditing(_ textView: UITextView) {
 		guard textView.textColor == UIColor.secondaryLabel else { return }
@@ -394,6 +396,7 @@ extension AddFitRecordViewController: UITextViewDelegate {
 	}
 }
 
+// MARK: - PHPickerViewControllerDelegate
 extension AddFitRecordViewController: PHPickerViewControllerDelegate {
 	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 		picker.dismiss(animated: true)
