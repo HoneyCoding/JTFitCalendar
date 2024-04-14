@@ -101,7 +101,14 @@ class CalendarViewController: UIViewController {
 	
 	@objc private func pushToAddFitItemViewController(_ sender: UIButton) {
 		let mainTabBarController = parent?.parent
-		mainTabBarController?.navigationController?.pushViewController(AddFitRecordViewController(), animated: true)
+		guard let selectedDate = calendarView.selectedDate else {
+			self.showAlert(message: "운동 기록을 남길 날짜를 선택해주세요.")
+			return
+		}
+		mainTabBarController?.navigationController?.pushViewController(
+			AddFitRecordViewController(date: selectedDate),
+			animated: true
+		)
 	}
 }
 

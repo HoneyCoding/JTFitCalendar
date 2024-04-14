@@ -158,6 +158,17 @@ class AddFitRecordViewController: UIViewController {
 	var minutes: Int = 0
 	var seconds: Int = 0
 	let activityResultTextViewPlaceholder: String = "운동 결과를 입력해보세요"
+	let date: Date
+	
+	// MARK: - Initializer
+	init(date: Date) {
+		self.date = date
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 	
 	// MARK: - View Lifecycle
 	override func viewDidLoad() {
