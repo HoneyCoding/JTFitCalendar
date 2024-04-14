@@ -299,7 +299,17 @@ class AddFitRecordViewController: UIViewController {
 	}
 	
 	@objc func saveButtonTapped(_ sender: UIBarButtonItem) {
-		print("Save Button Tapped")
+		if fitImageView.image == nil,
+		   activityTimeTextField.text?.isEmpty == true,
+		   activityDistanceTextField.text?.isEmpty == true,
+		   consumedCalorieTextField.text?.isEmpty == true,
+		   (
+			activityResultTextView.text == activityResultTextViewPlaceholder
+			|| activityResultTextView.text.isEmpty == true
+		   ) {
+			self.showAlert(message: "내용을 입력해주세요")
+			return
+		}
 		self.navigationController?.popViewController(animated: true)
 	}
 	
