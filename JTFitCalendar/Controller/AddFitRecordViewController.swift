@@ -325,6 +325,17 @@ class AddFitRecordViewController: UIViewController {
 			self.showAlert(message: "내용을 입력해주세요")
 			return
 		}
+		
+		DatabaseManager.shared.insertFitnessLog(
+			date: date,
+			imageData: fitImageView.image?.pngData(),
+			activityTimeHour: hour,
+			activityTimeMinutes: minutes,
+			activityTimeSeconds: seconds,
+			exerciseDistance: Double(activityDistanceTextField.text ?? "0.0"),
+			consumedCalorie: Double(consumedCalorieTextField.text ?? "0.0"),
+			fitnessResult: activityResultTextView.text
+		)
 		self.navigationController?.popViewController(animated: true)
 	}
 	
