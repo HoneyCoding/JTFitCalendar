@@ -72,6 +72,29 @@ final class DatabaseManager {
 		}
 	}
 	
+	func updateFitnessLog(
+		entity: FitnessLogEntity,
+		date: Date,
+		imageData: Data?,
+		activityTimeHour: Int,
+		activityTimeMinutes: Int,
+		activityTimeSeconds: Int,
+		exerciseDistance: Double?,
+		consumedCalorie: Double?,
+		fitnessResult: String?
+	) {
+		entity.date = date
+		entity.imageData = imageData
+		entity.hour = Int16(activityTimeHour)
+		entity.minutes = Int16(activityTimeMinutes)
+		entity.seconds = Int16(activityTimeSeconds)
+		entity.exerciseDistance = exerciseDistance ?? 0.0
+		entity.consumedCalorie = consumedCalorie ?? 0.0
+		entity.result = fitnessResult
+		
+		saveChanges()
+	}
+	
 	func saveChanges() {
 		if mainContext.hasChanges {
 			mainContext.perform { [weak self] in
