@@ -109,7 +109,7 @@ class CalendarViewController: UIViewController {
 			return
 		}
 		mainTabBarController?.navigationController?.pushViewController(
-			AddFitRecordViewController(date: selectedDate),
+			ComposeFitRecordViewController(date: selectedDate),
 			animated: true
 		)
 	}
