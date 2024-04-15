@@ -15,7 +15,7 @@
 		6B2C66172BCA72F9004DFB9A /* FitRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2C66162BCA72F9004DFB9A /* FitRecordCollectionViewCell.swift */; };
 		6B93EDF32BCAA7C6005AE9EF /* UICollectionView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDF22BCAA7C6005AE9EF /* UICollectionView+Ext.swift */; };
 		6B93EDF52BCAA7CE005AE9EF /* UICollectionViewCell+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDF42BCAA7CE005AE9EF /* UICollectionViewCell+Ext.swift */; };
-		6B93EDF72BCAB0D0005AE9EF /* AddFitRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDF62BCAB0D0005AE9EF /* AddFitRecordViewController.swift */; };
+		6B93EDF72BCAB0D0005AE9EF /* ComposeFitRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDF62BCAB0D0005AE9EF /* ComposeFitRecordViewController.swift */; };
 		6B93EDF92BCB3EC9005AE9EF /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDF82BCB3EC9005AE9EF /* UIColor+Ext.swift */; };
 		6B93EDFF2BCB5265005AE9EF /* UIViewController+showAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EDFE2BCB5265005AE9EF /* UIViewController+showAlert.swift */; };
 		6B93EE022BCB5395005AE9EF /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6B93EE002BCB5395005AE9EF /* CoreDataModel.xcdatamodeld */; };
@@ -41,7 +41,7 @@
 		6B2C66162BCA72F9004DFB9A /* FitRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B93EDF22BCAA7C6005AE9EF /* UICollectionView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Ext.swift"; sourceTree = "<group>"; };
 		6B93EDF42BCAA7CE005AE9EF /* UICollectionViewCell+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Ext.swift"; sourceTree = "<group>"; };
-		6B93EDF62BCAB0D0005AE9EF /* AddFitRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFitRecordViewController.swift; sourceTree = "<group>"; };
+		6B93EDF62BCAB0D0005AE9EF /* ComposeFitRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeFitRecordViewController.swift; sourceTree = "<group>"; };
 		6B93EDF82BCB3EC9005AE9EF /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		6B93EDFE2BCB5265005AE9EF /* UIViewController+showAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showAlert.swift"; sourceTree = "<group>"; };
 		6B93EE012BCB5395005AE9EF /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			children = (
 				6BFDDF542BCA5668001CA40E /* MainTabBarController.swift */,
 				6B2C66082BCA5E11004DFB9A /* CalendarViewController.swift */,
-				6B93EDF62BCAB0D0005AE9EF /* AddFitRecordViewController.swift */,
+				6B93EDF62BCAB0D0005AE9EF /* ComposeFitRecordViewController.swift */,
 				6B2C660A2BCA5E2B004DFB9A /* FitListViewController.swift */,
 				6B2C660C2BCA5E3C004DFB9A /* SettingsViewController.swift */,
 			);
@@ -316,7 +316,7 @@
 				6B2C66132BCA716E004DFB9A /* UITableView+Ext.swift in Sources */,
 				6B2C66092BCA5E11004DFB9A /* CalendarViewController.swift in Sources */,
 				6B2C660D2BCA5E3C004DFB9A /* SettingsViewController.swift in Sources */,
-				6B93EDF72BCAB0D0005AE9EF /* AddFitRecordViewController.swift in Sources */,
+				6B93EDF72BCAB0D0005AE9EF /* ComposeFitRecordViewController.swift in Sources */,
 				6B93EE022BCB5395005AE9EF /* CoreDataModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

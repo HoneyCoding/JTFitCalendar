@@ -10,7 +10,7 @@ import SnapKit
 import Then
 import UIKit
 
-class AddFitRecordViewController: UIViewController {
+class ComposeFitRecordViewController: UIViewController {
 	
 	// MARK: - View Properties
 	private let fitImageLabel: UILabel = UILabel().then {
@@ -356,7 +356,7 @@ class AddFitRecordViewController: UIViewController {
 }
 
 // MARK: - UIPickerViewDelegate, UIPickerViewDataSource
-extension AddFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ComposeFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
 		return 3
@@ -419,7 +419,7 @@ extension AddFitRecordViewController: UIPickerViewDelegate, UIPickerViewDataSour
 
 // MARK: - UITextViewDelegate
 // UITextView에 placeholder를 추가하기 위해 작성한 코드이다.
-extension AddFitRecordViewController: UITextViewDelegate {
+extension ComposeFitRecordViewController: UITextViewDelegate {
 	func textViewDidBeginEditing(_ textView: UITextView) {
 		guard textView.textColor == UIColor.secondaryLabel else { return }
 		textView.textColor = UIColor.label
@@ -435,7 +435,7 @@ extension AddFitRecordViewController: UITextViewDelegate {
 }
 
 // MARK: - PHPickerViewControllerDelegate
-extension AddFitRecordViewController: PHPickerViewControllerDelegate {
+extension ComposeFitRecordViewController: PHPickerViewControllerDelegate {
 	func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 		picker.dismiss(animated: true)
 		
