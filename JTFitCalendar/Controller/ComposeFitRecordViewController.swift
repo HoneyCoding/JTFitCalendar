@@ -180,14 +180,22 @@ class ComposeFitRecordViewController: UIViewController {
 		if let fitnessLogEntity {
 			let exerciseDistanceText = fitnessLogEntity.exerciseDistance != 0.0 ? String(fitnessLogEntity.exerciseDistance) : nil
 			let consumedCalorieText = fitnessLogEntity.consumedCalorie != 0.0 ? String(fitnessLogEntity.consumedCalorie) : nil
-			fitImageView.image = fitnessLogEntity.image
+			if fitnessLogEntity.image != nil {
+				fitImageView.image = fitnessLogEntity.image
+				addPhotoLabel.isHidden = true
+			}
 			self.hour = Int(fitnessLogEntity.hour)
 			self.minutes = Int(fitnessLogEntity.minutes)
 			self.seconds = Int(fitnessLogEntity.seconds)
+			activityTimeTextField.text = fitnessLogEntity.activityTimeText
 			activityDistanceTextField.text = exerciseDistanceText
 			consumedCalorieTextField.text = consumedCalorieText
 			activityResultTextView.text = fitnessLogEntity.result
 			activityResultTextView.textColor = UIColor.label
+			
+			activityTimePickerView.selectRow(hour, inComponent: 0, animated: false)
+			activityTimePickerView.selectRow(minutes, inComponent: 1, animated: false)
+			activityTimePickerView.selectRow(seconds, inComponent: 2, animated: false)
 		}
 	}
 	
