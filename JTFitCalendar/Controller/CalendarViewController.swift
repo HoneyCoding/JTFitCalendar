@@ -48,6 +48,12 @@ class CalendarViewController: UIViewController {
 		$0.setImage(UIImage(systemName: "plus"), for: .normal)
 	}
 	
+	private let addItemMessageLabel: UILabel = UILabel().then {
+		$0.text = "피트 기록을 추가해보세요."
+		$0.textColor = UIColor.secondaryLabel
+		$0.font = UIFont.systemFont(ofSize: 14)
+	}
+	
 	var fitnessLogs: [FitnessLogEntity] = []
 	
 	override func viewDidLoad() {
@@ -81,6 +87,12 @@ class CalendarViewController: UIViewController {
 			make.leading.trailing.equalToSuperview()
 			make.bottom.equalToSuperview()
 		}
+		
+		fitListView.addSubview(addItemMessageLabel)
+		addItemMessageLabel.snp.makeConstraints { make in
+			make.center.equalToSuperview()
+		}
+		
 		fitListView.register(withType: FitRecordCollectionViewCell.self)
 		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
 	}
@@ -130,7 +142,13 @@ extension CalendarViewController: FSCalendarDelegate {
 
 extension CalendarViewController: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return fitnessLogs.count
+		let count = fitnessLogs.count
+		if count > 0 {
+			addItemMessageLabel.isHidden = true
+		} else {
+			addItemMessageLabel.isHidden = false
+		}
+		return count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
