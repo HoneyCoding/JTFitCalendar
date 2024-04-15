@@ -141,6 +141,20 @@ extension CalendarViewController: UICollectionViewDataSource {
 	}
 }
 
+extension CalendarViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let target = fitnessLogs[indexPath.item]
+		let mainTabBarController = parent?.parent
+		guard let date = target.date else { return }
+		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
+		composeFitRecordVC.fitnessLogEntity = target
+		mainTabBarController?.navigationController?.pushViewController(
+			composeFitRecordVC,
+			animated: true
+		)
+	}
+}
+
 extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 	func collectionView(
 		_ collectionView: UICollectionView,
