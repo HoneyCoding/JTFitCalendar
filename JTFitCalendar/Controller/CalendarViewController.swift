@@ -31,15 +31,13 @@ class CalendarViewController: UIViewController {
 		$0.timeZone = TimeZone(identifier: "KST")
 	}
 	
-	private lazy var fitListView: UICollectionView = {
-		let flowLayout = UICollectionViewFlowLayout()
-		flowLayout.scrollDirection = .vertical
-		flowLayout.minimumInteritemSpacing = 8
-		let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-		collectionView.delegate = self
-		collectionView.dataSource = self
-		collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-		return collectionView
+	private lazy var fitListView: UITableView = {
+		let tableView = UITableView(frame: .zero, style: .plain)
+		tableView.delegate = self
+		tableView.dataSource = self
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+		tableView.separatorStyle = .none
+		return tableView
 	}()
 	
 	private let addFitItemFloatingButton: UIButton = UIButton(type: .system).then {
@@ -140,8 +138,8 @@ extension CalendarViewController: FSCalendarDelegate {
 	}
 }
 
-extension CalendarViewController: UICollectionViewDataSource {
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension CalendarViewController: UITableViewDataSource {
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		let count = fitnessLogs.count
 		if count > 0 {
 			addItemMessageLabel.isHidden = true
@@ -151,17 +149,17 @@ extension CalendarViewController: UICollectionViewDataSource {
 		return count
 	}
 	
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withType: FitRecordCollectionViewCell.self, for: indexPath)
-		let target = fitnessLogs[indexPath.item]
+	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withType: FitRecordCollectionViewCell.self, for: indexPath)
+		let target = fitnessLogs[indexPath.row]
 		cell.configure(with: target)
 		return cell
 	}
 }
 
-extension CalendarViewController: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		let target = fitnessLogs[indexPath.item]
+extension CalendarViewController: UITableViewDelegate {
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		let target = fitnessLogs[indexPath.row]
 		let mainTabBarController = parent?.parent
 		guard let date = target.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
@@ -170,23 +168,5 @@ extension CalendarViewController: UICollectionViewDelegate {
 			composeFitRecordVC,
 			animated: true
 		)
-	}
-}
-
-extension CalendarViewController: UICollectionViewDelegateFlowLayout {
-	func collectionView(
-		_ collectionView: UICollectionView,
-		layout collectionViewLayout: UICollectionViewLayout,
-		sizeForItemAt indexPath: IndexPath
-	) -> CGSize {
-		let width: CGFloat = collectionView.frame.width - 12 * 2
-		let height: CGFloat = 240
-		let dummyCell = FitRecordCollectionViewCell(frame: CGRect(x: 0, y: 0, width: width, height: height))
-		
-		let target = fitnessLogs[indexPath.item]
-		dummyCell.configure(with: target)
-		
-		let estimatedSize = dummyCell.systemLayoutSizeFitting(CGSize(width: width, height: height))
-		return CGSize(width: width, height: estimatedSize.height)
 	}
 }

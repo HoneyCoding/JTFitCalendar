@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class FitRecordCollectionViewCell: UICollectionViewCell {
+class FitRecordCollectionViewCell: UITableViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
@@ -46,6 +46,12 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	
+	private let containerView: UIView = UIView().then{
+		$0.layer.cornerRadius = 8
+		$0.clipsToBounds = true
+		$0.backgroundColor = UIColor.jtGray
+	}
+	
 	private let maxActivityImageViewHeight: CGFloat = 200
 	
 	var exerciseResultDisplayLabelZeroHeightConstraint: Constraint?
@@ -55,8 +61,8 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 		commonInit()
 	}
 	
-	override init(frame: CGRect) {
-		super.init(frame: frame)
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		commonInit()
 	}
 	
@@ -65,11 +71,13 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 	}
 	
 	private func setupViews() {
-		contentView.layer.cornerRadius = 8
-		contentView.clipsToBounds = true
-		contentView.backgroundColor = UIColor.jtGray
+		self.selectionStyle = .none
+		contentView.addSubview(containerView)
+		containerView.snp.makeConstraints { make in
+			make.edges.equalToSuperview().inset(8)
+		}
 		
-		contentView.addSubview(activityImageView)
+		containerView.addSubview(activityImageView)
 		let activityImageViewHeight: CGFloat = activityImageView.image != nil ? maxActivityImageViewHeight : 0
 		activityImageView.snp.makeConstraints { make in
 			make.top.equalToSuperview().offset(12)
@@ -77,7 +85,7 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 			make.height.equalTo(activityImageViewHeight)
 		}
 		
-		contentView.addSubview(exerciseResultDisplayLabel)
+		containerView.addSubview(exerciseResultDisplayLabel)
 		exerciseResultDisplayLabel.snp.makeConstraints { make in
 			make.top.equalTo(activityImageView.snp.bottom).offset(12)
 			make.leading.trailing.equalTo(activityImageView)
@@ -85,46 +93,46 @@ class FitRecordCollectionViewCell: UICollectionViewCell {
 		}
 		exerciseResultDisplayLabelZeroHeightConstraint?.isActive = false
 		
-		contentView.addSubview(activityTimeLabel)
+		containerView.addSubview(activityTimeLabel)
 		activityTimeLabel.snp.makeConstraints { make in
 			make.top.equalTo(exerciseResultDisplayLabel.snp.bottom).offset(12)
 			make.leading.equalTo(activityImageView)
 		}
 		activityTimeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		contentView.addSubview(activityTimeDisplayLabel)
+		containerView.addSubview(activityTimeDisplayLabel)
 		activityTimeDisplayLabel.snp.makeConstraints { make in
 			make.top.equalTo(activityTimeLabel)
 			make.leading.equalTo(activityTimeLabel.snp.trailing).offset(24)
 			make.trailing.equalTo(activityImageView)
 		}
 		
-		contentView.addSubview(distanceLabel)
+		containerView.addSubview(distanceLabel)
 		distanceLabel.snp.makeConstraints { make in
 			make.top.equalTo(activityTimeLabel.snp.bottom).offset(12)
 			make.leading.equalTo(activityTimeLabel)
 		}
 		distanceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		contentView.addSubview(distanceDisplayLabel)
+		containerView.addSubview(distanceDisplayLabel)
 		distanceDisplayLabel.snp.makeConstraints { make in
 			make.top.equalTo(distanceLabel)
 			make.leading.equalTo(activityTimeDisplayLabel)
 			make.trailing.equalTo(activityTimeDisplayLabel)
 		}
 		
-		contentView.addSubview(calorieLabel)
+		containerView.addSubview(calorieLabel)
 		calorieLabel.snp.makeConstraints { make in
 			make.top.equalTo(distanceLabel.snp.bottom).offset(12)
 			make.leading.equalTo(distanceLabel)
 		}
 		calorieLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		contentView.addSubview(calorieDisplayLabel)
+		containerView.addSubview(calorieDisplayLabel)
 		calorieDisplayLabel.snp.makeConstraints { make in
 			make.top.equalTo(calorieLabel)
 			make.leading.equalTo(distanceDisplayLabel)
 			make.trailing.equalTo(distanceDisplayLabel)
 		}
 		
-		contentView.addSubview(dateLabel)
+		containerView.addSubview(dateLabel)
 		dateLabel.snp.makeConstraints { make in
 			make.top.equalTo(calorieLabel.snp.bottom).offset(16)
 			make.leading.trailing.equalTo(activityImageView)
