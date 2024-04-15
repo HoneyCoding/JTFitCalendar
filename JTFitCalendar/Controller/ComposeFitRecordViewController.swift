@@ -153,6 +153,8 @@ class ComposeFitRecordViewController: UIViewController {
 	private let fitRecordScrollView: UIScrollView = UIScrollView()
 	private let fitRecordScrollContentView: UIView = UIView()
 	
+	var fitnessLogEntity: FitnessLogEntity?
+	
 	// MARK: - Properties
 	var hour: Int = 0
 	var minutes: Int = 0
@@ -174,6 +176,19 @@ class ComposeFitRecordViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupViews()
+		
+		if let fitnessLogEntity {
+			let exerciseDistanceText = fitnessLogEntity.exerciseDistance != 0.0 ? String(fitnessLogEntity.exerciseDistance) : nil
+			let consumedCalorieText = fitnessLogEntity.consumedCalorie != 0.0 ? String(fitnessLogEntity.consumedCalorie) : nil
+			fitImageView.image = fitnessLogEntity.image
+			self.hour = Int(fitnessLogEntity.hour)
+			self.minutes = Int(fitnessLogEntity.minutes)
+			self.seconds = Int(fitnessLogEntity.seconds)
+			activityDistanceTextField.text = exerciseDistanceText
+			consumedCalorieTextField.text = consumedCalorieText
+			activityResultTextView.text = fitnessLogEntity.result
+			activityResultTextView.textColor = UIColor.label
+		}
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -328,16 +343,30 @@ class ComposeFitRecordViewController: UIViewController {
 		
 		let fitnessResult = (activityResultTextView.text == activityResultTextViewPlaceholder) ? nil : activityResultTextView.text
 		
-		DatabaseManager.shared.insertFitnessLog(
-			date: date,
-			imageData: fitImageView.image?.pngData(),
-			activityTimeHour: hour,
-			activityTimeMinutes: minutes,
-			activityTimeSeconds: seconds,
-			exerciseDistance: Double(activityDistanceTextField.text ?? "0.0"),
-			consumedCalorie: Double(consumedCalorieTextField.text ?? "0.0"),
-			fitnessResult: fitnessResult
-		)
+		if let fitnessLogEntity {
+			DatabaseManager.shared.updateFitnessLog(
+				entity: fitnessLogEntity,
+				date: date,
+				imageData: fitImageView.image?.pngData(),
+				activityTimeHour: hour,
+				activityTimeMinutes: minutes,
+				activityTimeSeconds: seconds,
+				exerciseDistance: Double(activityDistanceTextField.text ?? "0.0"),
+				consumedCalorie: Double(consumedCalorieTextField.text ?? "0.0"),
+				fitnessResult: fitnessResult
+			)
+		} else {
+			DatabaseManager.shared.insertFitnessLog(
+				date: date,
+				imageData: fitImageView.image?.pngData(),
+				activityTimeHour: hour,
+				activityTimeMinutes: minutes,
+				activityTimeSeconds: seconds,
+				exerciseDistance: Double(activityDistanceTextField.text ?? "0.0"),
+				consumedCalorie: Double(consumedCalorieTextField.text ?? "0.0"),
+				fitnessResult: fitnessResult
+			)
+		}
 		self.navigationController?.popViewController(animated: true)
 	}
 	
