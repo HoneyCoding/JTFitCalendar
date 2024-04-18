@@ -118,8 +118,10 @@ class CalendarViewController: UIViewController {
 			self.showAlert(message: "운동 기록을 남길 날짜를 선택해주세요.")
 			return
 		}
+		let composeFitRecordVC = ComposeFitRecordViewController(date: selectedDate)
+		composeFitRecordVC.delegate = self
 		mainTabBarController?.navigationController?.pushViewController(
-			ComposeFitRecordViewController(date: selectedDate),
+			composeFitRecordVC,
 			animated: true
 		)
 	}
@@ -163,10 +165,20 @@ extension CalendarViewController: UITableViewDelegate {
 		let mainTabBarController = parent?.parent
 		guard let date = target.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
+		composeFitRecordVC.delegate = self
 		composeFitRecordVC.fitnessLogEntity = target
 		mainTabBarController?.navigationController?.pushViewController(
 			composeFitRecordVC,
 			animated: true
 		)
+	}
+}
+
+extension CalendarViewController: ComposeFitRecordViewControllerDelegate {
+	func composeFitRecordViewController(
+		_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem
+	) {
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: calendarView.selectedDate)
+		fitListView.reloadData()
 	}
 }

@@ -10,6 +10,12 @@ import SnapKit
 import Then
 import UIKit
 
+protocol ComposeFitRecordViewControllerDelegate: AnyObject {
+	func composeFitRecordViewController(
+		_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem
+	)
+}
+
 class ComposeFitRecordViewController: UIViewController {
 	
 	// MARK: - View Properties
@@ -154,6 +160,7 @@ class ComposeFitRecordViewController: UIViewController {
 	private let fitRecordScrollContentView: UIView = UIView()
 	
 	var fitnessLogEntity: FitnessLogEntity?
+	weak var delegate: ComposeFitRecordViewControllerDelegate?
 	
 	// MARK: - Properties
 	var hour: Int = 0
@@ -375,6 +382,7 @@ class ComposeFitRecordViewController: UIViewController {
 				fitnessResult: fitnessResult
 			)
 		}
+		delegate?.composeFitRecordViewController(self, didTapSaveButton: sender)
 		self.navigationController?.popViewController(animated: true)
 	}
 	
