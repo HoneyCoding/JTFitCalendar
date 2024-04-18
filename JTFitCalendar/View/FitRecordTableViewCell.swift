@@ -9,7 +9,7 @@ import SnapKit
 import Then
 import UIKit
 
-class FitRecordCollectionViewCell: UITableViewCell {
+class FitRecordTableViewCell: UITableViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
