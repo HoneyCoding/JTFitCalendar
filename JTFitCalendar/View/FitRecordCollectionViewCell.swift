@@ -14,6 +14,8 @@ class FitRecordCollectionViewCell: UITableViewCell {
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
 		$0.layer.cornerRadius = 4
+		$0.backgroundColor = UIColor.systemGray3
+		$0.tintColor = UIColor.white
 		$0.clipsToBounds = true
 	}
 	private let activityTimeLabel: UILabel = UILabel().then {
@@ -52,7 +54,7 @@ class FitRecordCollectionViewCell: UITableViewCell {
 		$0.backgroundColor = UIColor.jtGray
 	}
 	
-	private let maxActivityImageViewHeight: CGFloat = 200
+	private let maxActivityImageViewWidthHeight: CGFloat = 64
 	
 	var exerciseResultDisplayLabelZeroHeightConstraint: Constraint?
 	
@@ -77,87 +79,55 @@ class FitRecordCollectionViewCell: UITableViewCell {
 			make.edges.equalToSuperview().inset(8)
 		}
 		
-		containerView.addSubview(activityImageView)
-		let activityImageViewHeight: CGFloat = activityImageView.image != nil ? maxActivityImageViewHeight : 0
+		let verticalStackView = UIStackView()
+		verticalStackView.axis = .vertical
+		verticalStackView.spacing = 8
+		
+		containerView.addSubview(verticalStackView)
+		verticalStackView.snp.makeConstraints { make in
+			make.edges.equalToSuperview().inset(8)
+		}
+		
+		verticalStackView.addArrangedSubview(exerciseResultDisplayLabel)
 		activityImageView.snp.makeConstraints { make in
-			make.top.equalToSuperview().offset(12)
-			make.leading.trailing.equalToSuperview().inset(24)
-			make.height.equalTo(activityImageViewHeight)
+			make.width.height.equalTo(maxActivityImageViewWidthHeight)
 		}
 		
-		containerView.addSubview(exerciseResultDisplayLabel)
-		exerciseResultDisplayLabel.snp.makeConstraints { make in
-			make.top.equalTo(activityImageView.snp.bottom).offset(12)
-			make.leading.trailing.equalTo(activityImageView)
-			exerciseResultDisplayLabelZeroHeightConstraint = make.height.equalTo(0).constraint
-		}
-		exerciseResultDisplayLabelZeroHeightConstraint?.isActive = false
+		let verticalTextsStackView = UIStackView()
+		verticalTextsStackView.axis = .vertical
+		verticalTextsStackView.spacing = 8
 		
-		containerView.addSubview(activityTimeLabel)
-		activityTimeLabel.snp.makeConstraints { make in
-			make.top.equalTo(exerciseResultDisplayLabel.snp.bottom).offset(12)
-			make.leading.equalTo(activityImageView)
-		}
-		activityTimeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		containerView.addSubview(activityTimeDisplayLabel)
-		activityTimeDisplayLabel.snp.makeConstraints { make in
-			make.top.equalTo(activityTimeLabel)
-			make.leading.equalTo(activityTimeLabel.snp.trailing).offset(24)
-			make.trailing.equalTo(activityImageView)
-		}
+		let activityTimeStackView = UIStackView(arrangedSubviews: [activityTimeLabel, activityTimeDisplayLabel])
+		activityTimeStackView.distribution = .equalSpacing
+		verticalTextsStackView.addArrangedSubview(activityTimeStackView)
 		
-		containerView.addSubview(distanceLabel)
-		distanceLabel.snp.makeConstraints { make in
-			make.top.equalTo(activityTimeLabel.snp.bottom).offset(12)
-			make.leading.equalTo(activityTimeLabel)
-		}
-		distanceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		containerView.addSubview(distanceDisplayLabel)
-		distanceDisplayLabel.snp.makeConstraints { make in
-			make.top.equalTo(distanceLabel)
-			make.leading.equalTo(activityTimeDisplayLabel)
-			make.trailing.equalTo(activityTimeDisplayLabel)
-		}
+		let distanceStackView = UIStackView(arrangedSubviews: [distanceLabel, distanceDisplayLabel])
+		distanceStackView.distribution = .equalSpacing
+		verticalTextsStackView.addArrangedSubview(distanceStackView)
 		
-		containerView.addSubview(calorieLabel)
-		calorieLabel.snp.makeConstraints { make in
-			make.top.equalTo(distanceLabel.snp.bottom).offset(12)
-			make.leading.equalTo(distanceLabel)
-		}
-		calorieLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		containerView.addSubview(calorieDisplayLabel)
-		calorieDisplayLabel.snp.makeConstraints { make in
-			make.top.equalTo(calorieLabel)
-			make.leading.equalTo(distanceDisplayLabel)
-			make.trailing.equalTo(distanceDisplayLabel)
-		}
+		let calorieStackView = UIStackView(arrangedSubviews: [calorieLabel, calorieDisplayLabel])
+		calorieStackView.distribution = .equalSpacing
+		verticalTextsStackView.addArrangedSubview(calorieStackView)
 		
-		containerView.addSubview(dateLabel)
-		dateLabel.snp.makeConstraints { make in
-			make.top.equalTo(calorieLabel.snp.bottom).offset(16)
-			make.leading.trailing.equalTo(activityImageView)
-			make.bottom.equalToSuperview().offset(-12)
-		}
+		let horizontalImageTextsStackView = UIStackView(arrangedSubviews: [activityImageView, verticalTextsStackView])
+		horizontalImageTextsStackView.spacing = 8
+		verticalStackView.addArrangedSubview(horizontalImageTextsStackView)
+		
+		verticalStackView.addArrangedSubview(dateLabel)
 	}
 	
 	func configure(with fitnessLogEntity: FitnessLogEntity) {
 		if fitnessLogEntity.image == nil {
-			activityImageView.image = nil
-			activityImageView.snp.updateConstraints { make in
-				make.height.equalTo(0)
-			}
+			activityImageView.image = UIImage(systemName: "figure.run.circle")
 		} else {
 			activityImageView.image = fitnessLogEntity.image
-			activityImageView.snp.updateConstraints { make in
-				make.height.equalTo(maxActivityImageViewHeight)
-			}
 		}
 		if fitnessLogEntity.result?.isEmpty == false {
 			exerciseResultDisplayLabel.text = fitnessLogEntity.result
-			exerciseResultDisplayLabelZeroHeightConstraint?.isActive = false
+			exerciseResultDisplayLabel.isHidden = false
 		} else {
 			exerciseResultDisplayLabel.text = nil
-			exerciseResultDisplayLabelZeroHeightConstraint?.isActive = true
+			exerciseResultDisplayLabel.isHidden = true
 		}
 		activityTimeDisplayLabel.text = fitnessLogEntity.activityTimeText?.isEmpty == true ? "없음" : fitnessLogEntity.activityTimeText
 		distanceDisplayLabel.text = fitnessLogEntity.exerciseDistance == 0.0 ? "없음" : "\(fitnessLogEntity.exerciseDistance) km"
