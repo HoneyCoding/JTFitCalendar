@@ -20,10 +20,10 @@ class FitRecordCollectionViewCell: UITableViewCell {
 	}
 	private let activityTimeLabel: UILabel = UILabel().then {
 		$0.text = "활동 시간"
-		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		$0.font = UIFont.systemFont(ofSize: 12)
 	}
 	private let activityTimeDisplayLabel: UILabel = UILabel().then {
-		$0.font = UIFont.systemFont(ofSize: 14)
+		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	
 	private let exerciseResultDisplayLabel: UILabel = UILabel().then {
@@ -32,17 +32,17 @@ class FitRecordCollectionViewCell: UITableViewCell {
 	
 	private let distanceLabel: UILabel = UILabel().then {
 		$0.text = "주행 거리"
-		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		$0.font = UIFont.systemFont(ofSize: 12)
 	}
 	private let distanceDisplayLabel: UILabel = UILabel().then {
-		$0.font = UIFont.systemFont(ofSize: 14)
+		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	private let calorieLabel: UILabel = UILabel().then {
 		$0.text = "칼로리"
-		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+		$0.font = UIFont.systemFont(ofSize: 12)
 	}
 	private let calorieDisplayLabel: UILabel = UILabel().then {
-		$0.font = UIFont.systemFont(ofSize: 14)
+		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	private let dateLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14)
@@ -98,15 +98,18 @@ class FitRecordCollectionViewCell: UITableViewCell {
 		verticalTextsStackView.spacing = 8
 		
 		let activityTimeStackView = UIStackView(arrangedSubviews: [activityTimeLabel, activityTimeDisplayLabel])
-		activityTimeStackView.distribution = .equalSpacing
+		activityTimeStackView.spacing = 12
+		activityTimeLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		verticalTextsStackView.addArrangedSubview(activityTimeStackView)
 		
 		let distanceStackView = UIStackView(arrangedSubviews: [distanceLabel, distanceDisplayLabel])
-		distanceStackView.distribution = .equalSpacing
+		distanceStackView.spacing = 12
+		distanceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		verticalTextsStackView.addArrangedSubview(distanceStackView)
 		
 		let calorieStackView = UIStackView(arrangedSubviews: [calorieLabel, calorieDisplayLabel])
-		calorieStackView.distribution = .equalSpacing
+		calorieStackView.spacing = 12
+		calorieLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		verticalTextsStackView.addArrangedSubview(calorieStackView)
 		
 		let horizontalImageTextsStackView = UIStackView(arrangedSubviews: [activityImageView, verticalTextsStackView])
@@ -118,9 +121,11 @@ class FitRecordCollectionViewCell: UITableViewCell {
 	
 	func configure(with fitnessLogEntity: FitnessLogEntity) {
 		if fitnessLogEntity.image == nil {
-			activityImageView.image = UIImage(systemName: "figure.run.circle")
+			activityImageView.image = nil
+			activityImageView.isHidden = true
 		} else {
 			activityImageView.image = fitnessLogEntity.image
+			activityImageView.isHidden = false
 		}
 		if fitnessLogEntity.result?.isEmpty == false {
 			exerciseResultDisplayLabel.text = fitnessLogEntity.result
@@ -132,6 +137,7 @@ class FitRecordCollectionViewCell: UITableViewCell {
 		activityTimeDisplayLabel.text = fitnessLogEntity.activityTimeText?.isEmpty == true ? "없음" : fitnessLogEntity.activityTimeText
 		distanceDisplayLabel.text = fitnessLogEntity.exerciseDistance == 0.0 ? "없음" : "\(fitnessLogEntity.exerciseDistance) km"
 		calorieDisplayLabel.text = fitnessLogEntity.consumedCalorie == 0.0 ? "없음" : "\(fitnessLogEntity.consumedCalorie) kcal"
-		dateLabel.text = fitnessLogEntity.date?.formatted()
+		dateLabel.text = fitnessLogEntity.date?.formatted(date: .numeric, time: .omitted)
+		dateLabel.isHidden = true
 	}
 }
