@@ -62,7 +62,7 @@ final class DatabaseManager {
 			}
 		}
 		
-		let sortByDate = NSSortDescriptor(keyPath: \FitnessLogEntity.date, ascending: true)
+		let sortByDate = NSSortDescriptor(keyPath: \FitnessLogEntity.date, ascending: false)
 		request.sortDescriptors = [sortByDate]
 		
 		do {
