@@ -21,6 +21,7 @@ class CalendarViewController: UIViewController {
 		$0.delegate = self
 		$0.appearance.titleDefaultColor = UIColor.label
 		$0.appearance.todayColor = .clear
+		$0.appearance.selectionColor = UIColor.primaryColor
 		$0.appearance.weekdayTextColor = UIColor.secondaryLabel
 		$0.appearance.titleTodayColor = UIColor.label
 	}
@@ -31,18 +32,17 @@ class CalendarViewController: UIViewController {
 		$0.timeZone = TimeZone(identifier: "KST")
 	}
 	
-	private lazy var fitListView: UITableView = {
-		let tableView = UITableView(frame: .zero, style: .plain)
-		tableView.delegate = self
-		tableView.dataSource = self
-		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
-		tableView.separatorStyle = .none
-		return tableView
-	}()
+	private lazy var fitListView: UITableView = UITableView().then {
+		$0.delegate = self
+		$0.dataSource = self
+		$0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+		$0.separatorStyle = .none
+		$0.backgroundColor = UIColor.jtBackgroundColor
+	}
 	
 	private let addFitItemFloatingButton: UIButton = UIButton(type: .system).then {
 		$0.tintColor = UIColor.white
-		$0.backgroundColor = UIColor.systemBlue
+		$0.backgroundColor = UIColor.primaryColor
 		$0.setImage(UIImage(systemName: "plus"), for: .normal)
 	}
 	
@@ -60,7 +60,7 @@ class CalendarViewController: UIViewController {
 	}
 	
 	private func setupViews() {
-		view.backgroundColor = UIColor.systemBackground
+		view.backgroundColor = UIColor.jtBackgroundColor
 		setupCalendarView()
 		setupFitListView()
 		setupNavigationBar()
@@ -91,7 +91,7 @@ class CalendarViewController: UIViewController {
 			make.center.equalToSuperview()
 		}
 		
-		fitListView.register(withType: FitRecordCollectionViewCell.self)
+		fitListView.register(withType: FitRecordTableViewCell.self)
 		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
 	}
 	
@@ -152,7 +152,7 @@ extension CalendarViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withType: FitRecordCollectionViewCell.self, for: indexPath)
+		let cell = tableView.dequeueReusableCell(withType: FitRecordTableViewCell.self, for: indexPath)
 		let target = fitnessLogs[indexPath.row]
 		cell.configure(with: target)
 		return cell
@@ -182,3 +182,4 @@ extension CalendarViewController: ComposeFitRecordViewControllerDelegate {
 		fitListView.reloadData()
 	}
 }
+

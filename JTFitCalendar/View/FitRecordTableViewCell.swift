@@ -14,49 +14,43 @@ class FitRecordTableViewCell: UITableViewCell {
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
 		$0.layer.cornerRadius = 4
-		$0.backgroundColor = UIColor.systemGray3
+		$0.backgroundColor = UIColor.emptyImageBackgroundColor
 		$0.tintColor = UIColor.white
 		$0.clipsToBounds = true
 	}
 	private let activityTimeLabel: UILabel = UILabel().then {
 		$0.text = "활동 시간"
-		$0.font = UIFont.systemFont(ofSize: 12)
+		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	private let activityTimeDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	
-	private let exerciseResultDisplayLabel: UILabel = UILabel().then {
-		$0.font = UIFont.systemFont(ofSize: 14)
-	}
-	
 	private let distanceLabel: UILabel = UILabel().then {
 		$0.text = "주행 거리"
-		$0.font = UIFont.systemFont(ofSize: 12)
+		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	private let distanceDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
 	private let calorieLabel: UILabel = UILabel().then {
 		$0.text = "칼로리"
-		$0.font = UIFont.systemFont(ofSize: 12)
+		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	private let calorieDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 	}
-	private let dateLabel: UILabel = UILabel().then {
+	private let exerciseResultDisplayLabel: UILabel = UILabel().then {
 		$0.font = UIFont.systemFont(ofSize: 14)
+		$0.textColor = UIColor.resultTextColor
 	}
 	
 	private let containerView: UIView = UIView().then{
 		$0.layer.cornerRadius = 8
 		$0.clipsToBounds = true
-		$0.backgroundColor = UIColor.jtGray
 	}
 	
 	private let maxActivityImageViewWidthHeight: CGFloat = 64
-	
-	var exerciseResultDisplayLabelZeroHeightConstraint: Constraint?
 	
 	required init?(coder: NSCoder) {
 		super.init(coder: coder)
@@ -78,6 +72,7 @@ class FitRecordTableViewCell: UITableViewCell {
 		containerView.snp.makeConstraints { make in
 			make.edges.equalToSuperview().inset(8)
 		}
+		contentView.backgroundColor = UIColor.jtBackgroundColor
 		
 		let verticalStackView = UIStackView()
 		verticalStackView.axis = .vertical
@@ -88,7 +83,6 @@ class FitRecordTableViewCell: UITableViewCell {
 			make.edges.equalToSuperview().inset(8)
 		}
 		
-		verticalStackView.addArrangedSubview(exerciseResultDisplayLabel)
 		activityImageView.snp.makeConstraints { make in
 			make.width.height.equalTo(maxActivityImageViewWidthHeight)
 		}
@@ -105,39 +99,39 @@ class FitRecordTableViewCell: UITableViewCell {
 		let distanceStackView = UIStackView(arrangedSubviews: [distanceLabel, distanceDisplayLabel])
 		distanceStackView.spacing = 12
 		distanceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		verticalTextsStackView.addArrangedSubview(distanceStackView)
+		distanceDisplayLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+		distanceStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 		
 		let calorieStackView = UIStackView(arrangedSubviews: [calorieLabel, calorieDisplayLabel])
 		calorieStackView.spacing = 12
 		calorieLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-		verticalTextsStackView.addArrangedSubview(calorieStackView)
+		
+		let horizontalDistanceCalorieStackView = UIStackView(arrangedSubviews: [distanceStackView, calorieStackView])
+		horizontalDistanceCalorieStackView.spacing = 16
+		
+		verticalTextsStackView.addArrangedSubview(horizontalDistanceCalorieStackView)
+		verticalTextsStackView.addArrangedSubview(exerciseResultDisplayLabel)
 		
 		let horizontalImageTextsStackView = UIStackView(arrangedSubviews: [activityImageView, verticalTextsStackView])
 		horizontalImageTextsStackView.spacing = 8
 		verticalStackView.addArrangedSubview(horizontalImageTextsStackView)
-		
-		verticalStackView.addArrangedSubview(dateLabel)
 	}
 	
 	func configure(with fitnessLogEntity: FitnessLogEntity) {
 		if fitnessLogEntity.image == nil {
-			activityImageView.image = nil
-			activityImageView.isHidden = true
+			activityImageView.image = UIImage(named: "running")
+			activityImageView.contentMode = .center
 		} else {
 			activityImageView.image = fitnessLogEntity.image
-			activityImageView.isHidden = false
+			activityImageView.contentMode = .scaleAspectFill
 		}
 		if fitnessLogEntity.result?.isEmpty == false {
-			exerciseResultDisplayLabel.text = fitnessLogEntity.result
-			exerciseResultDisplayLabel.isHidden = false
+			exerciseResultDisplayLabel.text = "메모: \(fitnessLogEntity.result ?? "없음")"
 		} else {
-			exerciseResultDisplayLabel.text = nil
-			exerciseResultDisplayLabel.isHidden = true
+			exerciseResultDisplayLabel.text = "메모: 없음"
 		}
 		activityTimeDisplayLabel.text = fitnessLogEntity.activityTimeText?.isEmpty == true ? "없음" : fitnessLogEntity.activityTimeText
 		distanceDisplayLabel.text = fitnessLogEntity.exerciseDistance == 0.0 ? "없음" : "\(fitnessLogEntity.exerciseDistance) km"
 		calorieDisplayLabel.text = fitnessLogEntity.consumedCalorie == 0.0 ? "없음" : "\(fitnessLogEntity.consumedCalorie) kcal"
-		dateLabel.text = fitnessLogEntity.date?.formatted(date: .numeric, time: .omitted)
-		dateLabel.isHidden = true
 	}
 }

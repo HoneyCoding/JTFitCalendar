@@ -24,6 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let navigationController = UINavigationController(rootViewController: MainTabBarController())
 		navigationController.isNavigationBarHidden = true
 		window.rootViewController = navigationController
+		window.tintColor = UIColor.primaryColor
 		window.makeKeyAndVisible()
 		self.window = window
 	}
