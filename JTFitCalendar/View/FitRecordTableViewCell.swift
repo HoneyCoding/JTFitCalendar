@@ -13,7 +13,7 @@ class FitRecordTableViewCell: UITableViewCell {
 	
 	private let activityImageView: UIImageView = UIImageView().then {
 		$0.contentMode = .scaleAspectFill
-		$0.layer.cornerRadius = 4
+		$0.layer.cornerRadius = 8
 		$0.backgroundColor = UIColor.emptyImageBackgroundColor
 		$0.tintColor = UIColor.white
 		$0.clipsToBounds = true
