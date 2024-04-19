@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		// 윈도우 설정
 		guard let scene = (scene as? UIWindowScene) else { return }
 		let window = UIWindow(windowScene: scene)
-		window.backgroundColor = UIColor.systemBackground
+		window.backgroundColor = UIColor.jtBackgroundColor
 		let navigationController = UINavigationController(rootViewController: MainTabBarController())
 		navigationController.isNavigationBarHidden = true
 		window.rootViewController = navigationController

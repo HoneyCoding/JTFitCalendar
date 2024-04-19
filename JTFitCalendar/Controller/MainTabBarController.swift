@@ -50,7 +50,7 @@ class MainTabBarController: UITabBarController {
 		let appearance = UITabBarAppearance()
 		appearance.configureWithOpaqueBackground()
 		appearance.shadowColor = UIColor.clear
-		appearance.backgroundColor = UIColor.systemBackground
+		appearance.backgroundColor = UIColor.jtBackgroundColor
 		tabBar.standardAppearance = appearance
 		tabBar.scrollEdgeAppearance = appearance
 	}

@@ -218,7 +218,7 @@ class ComposeFitRecordViewController: UIViewController {
 	
 	// MARK: - SetupViews
 	private func setupViews() {
-		view.backgroundColor = UIColor.systemBackground
+		view.backgroundColor = UIColor.jtBackgroundColor
 		
 		let closeKeyboardGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
 		view.addGestureRecognizer(closeKeyboardGestureRecognizer)
