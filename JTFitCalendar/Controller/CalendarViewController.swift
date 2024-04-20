@@ -172,6 +172,21 @@ extension CalendarViewController: UITableViewDelegate {
 			animated: true
 		)
 	}
+	
+	func tableView(
+		_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		return UIContextMenuConfiguration(actionProvider:  { _ in
+			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+				let target = self.fitnessLogs[indexPath.row]
+				self.fitnessLogs.remove(at: indexPath.row)
+				DatabaseManager.shared.delete(entity: target)
+				tableView.deleteRows(at: [indexPath], with: .automatic)
+			}
+			
+			return UIMenu(title: "", children: [deleteAction])
+		})
+	}
 }
 
 extension CalendarViewController: ComposeFitRecordViewControllerDelegate {
