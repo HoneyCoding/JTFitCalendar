@@ -61,7 +61,7 @@ class CalendarViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: calendarView.selectedDate ?? Date.now)
 		fitListView.reloadData()
 	}
 	
