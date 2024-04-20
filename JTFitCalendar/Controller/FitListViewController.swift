@@ -23,6 +23,12 @@ class FitListViewController: UIViewController {
 		setupViews()
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
+		tableView.reloadData()
+	}
+	
 	private func setupViews() {
 		view.backgroundColor = UIColor.jtBackgroundColor
 		setupTableView()
@@ -37,8 +43,6 @@ class FitListViewController: UIViewController {
 		tableView.register(withType: FitRecordTableViewCell.self)
 		tableView.dataSource = self
 		tableView.delegate = self
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
-		tableView.reloadData()
 	}
 	
 }

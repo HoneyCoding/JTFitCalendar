@@ -59,6 +59,12 @@ class CalendarViewController: UIViewController {
 		setupViews()
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
+		fitListView.reloadData()
+	}
+	
 	private func setupViews() {
 		view.backgroundColor = UIColor.jtBackgroundColor
 		setupCalendarView()
@@ -92,7 +98,6 @@ class CalendarViewController: UIViewController {
 		}
 		
 		fitListView.register(withType: FitRecordTableViewCell.self)
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: Date.now)
 	}
 	
 	private func setupNavigationBar() {
