@@ -16,7 +16,7 @@ class FitListViewController: UIViewController {
 		$0.backgroundColor = UIColor.jtBackgroundColor
 	}
 	
-	var fitnessLogEntities: [FitnessLogEntity] = []
+	var fitnessLogs: [FitnessLogEntity] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,7 +36,8 @@ class FitListViewController: UIViewController {
 		
 		tableView.register(withType: FitRecordTableViewCell.self)
 		tableView.dataSource = self
-		fitnessLogEntities = DatabaseManager.shared.fetchFitnessLogs()
+		tableView.delegate = self
+		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
 		tableView.reloadData()
 	}
 	
@@ -44,13 +45,30 @@ class FitListViewController: UIViewController {
 
 extension FitListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return fitnessLogEntities.count
+		return fitnessLogs.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withType: FitRecordTableViewCell.self, for: indexPath)
-		let target = fitnessLogEntities[indexPath.row]
+		let target = fitnessLogs[indexPath.row]
 		cell.configure(with: target)
 		return cell
+	}
+}
+
+extension FitListViewController: UITableViewDelegate {
+	func tableView(
+		_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint
+	) -> UIContextMenuConfiguration? {
+		return UIContextMenuConfiguration(actionProvider:  { _ in
+			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
+				let target = self.fitnessLogs[indexPath.row]
+				self.fitnessLogs.remove(at: indexPath.row)
+				DatabaseManager.shared.delete(entity: target)
+				tableView.deleteRows(at: [indexPath], with: .automatic)
+			}
+			
+			return UIMenu(title: "", children: [deleteAction])
+		})
 	}
 }
