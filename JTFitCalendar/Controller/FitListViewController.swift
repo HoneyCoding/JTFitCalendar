@@ -26,6 +26,7 @@ class FitListViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		let fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
+		fitnessLogRepresentation = FitnessLogRepresentation()
 		fitnessLogRepresentation.append(fitnessLogList: fitnessLogs)
 		tableView.reloadData()
 	}
