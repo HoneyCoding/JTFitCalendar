@@ -95,6 +95,11 @@ final class DatabaseManager {
 		saveChanges()
 	}
 	
+	func delete(entity: NSManagedObject) {
+		mainContext.delete(entity)
+		saveChanges()
+	}
+	
 	func saveChanges() {
 		if mainContext.hasChanges {
 			mainContext.perform { [weak self] in
