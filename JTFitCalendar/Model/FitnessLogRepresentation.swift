@@ -59,7 +59,7 @@ struct FitnessLogRepresentation {
 	
 	/// indexPath의 fitnessLog를 삭제하는 함수
 	/// - Parameter indexPath: 삭제하고자 하는 fitnessLog의 indexPath 전달.
-	mutating func removeTodo(at indexPath: IndexPath) {
+	mutating func removeFitnessLog(at indexPath: IndexPath) {
 		dateFitnessLogDictionary[sectionDate(forSection: indexPath.section)]?.remove(at: indexPath.row)
 	}
 	
@@ -89,7 +89,7 @@ struct FitnessLogRepresentation {
 	
 	/// indexPath에 해당하는 fitnessLog를 return하는 함수
 	/// - Returns: indexPath에 해당하는 fitnessLog, 또는 nil
-	func todo(for indexPath: IndexPath) -> FitnessLogEntity? {
+	func fitnessLog(for indexPath: IndexPath) -> FitnessLogEntity? {
 		return rows(forSection: indexPath.section)?[indexPath.row]
 	}
 }

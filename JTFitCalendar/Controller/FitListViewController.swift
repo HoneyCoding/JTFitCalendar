@@ -16,7 +16,7 @@ class FitListViewController: UIViewController {
 		$0.backgroundColor = UIColor.jtBackgroundColor
 	}
 	
-	var fitnessLogs: [FitnessLogEntity] = []
+	var fitnessLogRepresentation: FitnessLogRepresentation = FitnessLogRepresentation()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -25,7 +25,8 @@ class FitListViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
+		let fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
+		fitnessLogRepresentation.append(fitnessLogList: fitnessLogs)
 		tableView.reloadData()
 	}
 	
@@ -48,14 +49,23 @@ class FitListViewController: UIViewController {
 }
 
 extension FitListViewController: UITableViewDataSource {
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return fitnessLogRepresentation.count
+	}
+	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return fitnessLogs.count
+		return fitnessLogRepresentation.rowCount(forSection: section)
+	}
+	
+	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return fitnessLogRepresentation.sectionDate(forSection: section).formatted(date: .numeric, time: .omitted)
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withType: FitRecordTableViewCell.self, for: indexPath)
-		let target = fitnessLogs[indexPath.row]
-		cell.configure(with: target)
+		if let target = fitnessLogRepresentation.fitnessLog(for: indexPath) {
+			cell.configure(with: target)
+		}
 		return cell
 	}
 }
@@ -66,10 +76,16 @@ extension FitListViewController: UITableViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		return UIContextMenuConfiguration(actionProvider:  { _ in
 			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-				let target = self.fitnessLogs[indexPath.row]
-				self.fitnessLogs.remove(at: indexPath.row)
-				DatabaseManager.shared.delete(entity: target)
-				tableView.deleteRows(at: [indexPath], with: .automatic)
+				if let target = self.fitnessLogRepresentation.fitnessLog(for: indexPath) {
+					self.fitnessLogRepresentation.removeFitnessLog(at: indexPath)
+					DatabaseManager.shared.delete(entity: target)
+					if self.fitnessLogRepresentation.rowCount(forSection: indexPath.section) == 0 {
+						self.fitnessLogRepresentation.removeSection(forSection: indexPath.section)
+						tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
+					} else {
+						tableView.deleteRows(at: [indexPath], with: .automatic)
+					}
+				}
 			}
 			
 			return UIMenu(title: "", children: [deleteAction])
