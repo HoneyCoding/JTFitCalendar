@@ -114,4 +114,26 @@ extension FitListViewController: UITableViewDelegate {
 			return UIMenu(title: "", children: [deleteAction])
 		})
 	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		tableView.deselectRow(at: indexPath, animated: true)
+		let target = fitnessLogRepresentation.fitnessLog(for: indexPath)
+		let mainTabBarController = parent?.parent
+		guard let date = target?.date else { return }
+		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
+		composeFitRecordVC.delegate = self
+		composeFitRecordVC.fitnessLogEntity = target
+		mainTabBarController?.navigationController?.pushViewController(
+			composeFitRecordVC,
+			animated: true
+		)
+	}
+}
+
+extension FitListViewController: ComposeFitRecordViewControllerDelegate {
+	func composeFitRecordViewController(_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem) {
+		fitnessLogRepresentation = FitnessLogRepresentation()
+		fitnessLogRepresentation.append(fitnessLogList: DatabaseManager.shared.fetchFitnessLogs())
+		tableView.reloadData()
+	}
 }
