@@ -11,7 +11,7 @@ import UIKit
 
 class FitListViewController: UIViewController {
 	
-	private let tableView: UITableView = UITableView().then {
+	private let tableView: UITableView = UITableView(frame: .zero, style: .grouped).then {
 		$0.separatorStyle = .none
 		$0.backgroundColor = UIColor.jtBackgroundColor
 	}
@@ -58,8 +58,14 @@ extension FitListViewController: UITableViewDataSource {
 		return fitnessLogRepresentation.rowCount(forSection: section)
 	}
 	
-	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return fitnessLogRepresentation.sectionDate(forSection: section).formatted(date: .numeric, time: .omitted)
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let date = fitnessLogRepresentation.sectionDate(forSection: section)
+		let formatter = DateFormatter()
+		formatter.dateFormat = "yyyy.MM.dd"
+		
+		let dateTitle = formatter.string(from: date)
+		
+		return createHeaderView(title: dateTitle)
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,6 +74,22 @@ extension FitListViewController: UITableViewDataSource {
 			cell.configure(with: target)
 		}
 		return cell
+	}
+	
+	fileprivate func createHeaderView(title: String) -> UIView? {
+		let headerView = UIView()
+		// titleLabel 생성 및 font 설정
+		let titleLabel = UILabel()
+		titleLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+		
+		// View Hierarchy 및 Constraints 설정
+		headerView.addSubview(titleLabel)
+		titleLabel.snp.makeConstraints { make in
+			make.horizontalEdges.equalTo(headerView).inset(18)
+			make.centerY.equalTo(headerView)
+		}
+		titleLabel.text = title
+		return headerView
 	}
 }
 
