@@ -21,23 +21,17 @@ class MainTabBarController: UITabBarController {
 	
 	/// Tab Bar를 통해 전환할 수 있는 3개의 컨트롤러를 설정해준다.
 	private func setupViewControllers() {
-		let firstViewController = createNavigationController(
-			image: UIImage(systemName: "calendar"), 
-			title: "캘린더",
-			rootViewController: CalendarViewController()
-		)
+		let firstViewController = UINavigationController(rootViewController: CalendarViewController())
+		firstViewController.tabBarItem.image = UIImage(systemName: "calendar")
+		firstViewController.tabBarItem.title = "캘린더"
 		
-		let secondViewController = createNavigationController(
-			image: UIImage(systemName: "line.3.horizontal"),
-			title: "기록 목록",
-			rootViewController: FitListViewController()
-		)
+		let secondViewController = FitListViewController()
+		secondViewController.tabBarItem.image = UIImage(systemName: "line.3.horizontal")
+		secondViewController.tabBarItem.title = "기록 목록"
 		
-		let thirdViewController = createNavigationController(
-			image: UIImage(systemName: "gearshape.fill"),
-			title: "설정",
-			rootViewController: SettingsViewController()
-		)
+		let thirdViewController = SettingsViewController()
+		thirdViewController.tabBarItem.image = UIImage(systemName: "gearshape.fill")
+		thirdViewController.tabBarItem.title = "설정"
 		
 		self.setViewControllers(
 			[firstViewController, secondViewController, thirdViewController],
@@ -53,21 +47,6 @@ class MainTabBarController: UITabBarController {
 		appearance.backgroundColor = UIColor.jtBackgroundColor
 		tabBar.standardAppearance = appearance
 		tabBar.scrollEdgeAppearance = appearance
-	}
-	
-	/// 해당 함수를 통해 tabBarItem이 설정된 NavigationController를 생성한다.
-	/// - Parameters:
-	///   - image: tabBarItem의 image로 사용된다.
-	///   - title: tabBarItem의 title로 사용된다.
-	///   - rootViewController: UINavigationController로 감싸주는 viewController이다.
-	/// - Returns: rootViewController를 UINavigationController로 감싸주어 return한다.
-	private func createNavigationController(
-		image: UIImage?, title: String?, rootViewController: UIViewController
-	) -> UINavigationController {
-		let navigationController = UINavigationController(rootViewController: rootViewController)
-		navigationController.tabBarItem.title = title
-		navigationController.tabBarItem.image = image
-		return navigationController
 	}
 	
 }

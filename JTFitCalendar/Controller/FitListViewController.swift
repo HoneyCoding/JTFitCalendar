@@ -118,12 +118,11 @@ extension FitListViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		let target = fitnessLogRepresentation.fitnessLog(for: indexPath)
-		let mainTabBarController = parent?.parent
 		guard let date = target?.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
 		composeFitRecordVC.delegate = self
 		composeFitRecordVC.fitnessLogEntity = target
-		mainTabBarController?.navigationController?.pushViewController(
+		navigationController?.pushViewController(
 			composeFitRecordVC,
 			animated: true
 		)
