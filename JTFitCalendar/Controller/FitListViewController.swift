@@ -17,6 +17,7 @@ class FitListViewController: UIViewController {
 	}
 	
 	var fitnessLogRepresentation: FitnessLogRepresentation = FitnessLogRepresentation()
+	var selectedIndexPath: IndexPath?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -117,6 +118,7 @@ extension FitListViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
+		self.selectedIndexPath = indexPath
 		let target = fitnessLogRepresentation.fitnessLog(for: indexPath)
 		guard let date = target?.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
@@ -131,8 +133,9 @@ extension FitListViewController: UITableViewDelegate {
 
 extension FitListViewController: ComposeFitRecordViewControllerDelegate {
 	func composeFitRecordViewController(_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem) {
-		fitnessLogRepresentation = FitnessLogRepresentation()
-		fitnessLogRepresentation.append(fitnessLogList: DatabaseManager.shared.fetchFitnessLogs())
-		tableView.reloadData()
+		if let selectedIndexPath {
+			tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
+			self.selectedIndexPath = nil
+		}
 	}
 }

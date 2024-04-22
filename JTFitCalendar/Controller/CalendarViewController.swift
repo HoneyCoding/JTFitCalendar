@@ -53,6 +53,7 @@ class CalendarViewController: UIViewController {
 	}
 	
 	var fitnessLogs: [FitnessLogEntity] = []
+	var selectedIndexPath: IndexPath?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -166,6 +167,7 @@ extension CalendarViewController: UITableViewDataSource {
 
 extension CalendarViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.selectedIndexPath = indexPath
 		let target = fitnessLogs[indexPath.row]
 		let mainTabBarController = parent?.parent
 		guard let date = target.date else { return }
@@ -198,8 +200,10 @@ extension CalendarViewController: ComposeFitRecordViewControllerDelegate {
 	func composeFitRecordViewController(
 		_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem
 	) {
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: calendarView.selectedDate)
-		fitListView.reloadData()
+		if let selectedIndexPath {
+			fitListView.reloadRows(at: [selectedIndexPath], with: .automatic)
+			self.selectedIndexPath = nil
+		}
 	}
 }
 
