@@ -16,7 +16,6 @@ class FitListViewController: UIViewController {
 		$0.backgroundColor = UIColor.jtBackgroundColor
 	}
 	
-	var fitnessLogRepresentation: FitnessLogRepresentation = FitnessLogRepresentation()
 	var selectedIndexPath: IndexPath?
 	
 	override func viewDidLoad() {
@@ -26,9 +25,6 @@ class FitListViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		let fitnessLogs = DatabaseManager.shared.fetchFitnessLogs()
-		fitnessLogRepresentation = FitnessLogRepresentation()
-		fitnessLogRepresentation.append(fitnessLogList: fitnessLogs)
 		tableView.reloadData()
 	}
 	
@@ -47,20 +43,19 @@ class FitListViewController: UIViewController {
 		tableView.dataSource = self
 		tableView.delegate = self
 	}
-	
 }
 
 extension FitListViewController: UITableViewDataSource {
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return fitnessLogRepresentation.count
+		return DatabaseManager.shared.sectionCount
 	}
 	
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return fitnessLogRepresentation.rowCount(forSection: section)
+		return DatabaseManager.shared.rowCount(forSection: section)
 	}
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		let date = fitnessLogRepresentation.sectionDate(forSection: section)
+		let date = DatabaseManager.shared.sectionDate(forSection: section)
 		let formatter = DateFormatter()
 		formatter.dateFormat = "yyyy.MM.dd"
 		
@@ -71,7 +66,7 @@ extension FitListViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withType: FitRecordTableViewCell.self, for: indexPath)
-		if let target = fitnessLogRepresentation.fitnessLog(for: indexPath) {
+		if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
 			cell.configure(with: target)
 		}
 		return cell
@@ -100,11 +95,10 @@ extension FitListViewController: UITableViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		return UIContextMenuConfiguration(actionProvider:  { _ in
 			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-				if let target = self.fitnessLogRepresentation.fitnessLog(for: indexPath) {
-					self.fitnessLogRepresentation.removeFitnessLog(at: indexPath)
-					DatabaseManager.shared.delete(entity: target)
-					if self.fitnessLogRepresentation.rowCount(forSection: indexPath.section) == 0 {
-						self.fitnessLogRepresentation.removeSection(forSection: indexPath.section)
+				if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
+					DatabaseManager.shared.deleteRow(fitnessLog: target)
+					if DatabaseManager.shared.rowCount(forSection: indexPath.section) == 0 {
+						DatabaseManager.shared.deleteSection(forSection: indexPath.section)
 						tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
 					} else {
 						tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -119,7 +113,7 @@ extension FitListViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		self.selectedIndexPath = indexPath
-		let target = fitnessLogRepresentation.fitnessLog(for: indexPath)
+		let target = DatabaseManager.shared.fitnessLog(for: indexPath)
 		guard let date = target?.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
 		composeFitRecordVC.delegate = self

@@ -52,8 +52,8 @@ class CalendarViewController: UIViewController {
 		$0.font = UIFont.systemFont(ofSize: 14)
 	}
 	
-	var fitnessLogs: [FitnessLogEntity] = []
 	var selectedIndexPath: IndexPath?
+	var selectedDate: Date = Calendar.current.startOfDay(for: Date.now)
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -62,7 +62,6 @@ class CalendarViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: calendarView.selectedDate ?? Date.now)
 		fitListView.reloadData()
 	}
 	
@@ -99,6 +98,8 @@ class CalendarViewController: UIViewController {
 		}
 		
 		fitListView.register(withType: FitRecordTableViewCell.self)
+		
+		fitListView.reloadData()
 	}
 	
 	private func setupNavigationBar() {
@@ -141,14 +142,14 @@ extension CalendarViewController: FSCalendarDelegate {
 	}
 	
 	func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-		fitnessLogs = DatabaseManager.shared.fetchFitnessLogs(for: date)
+		selectedDate = date
 		fitListView.reloadData()
 	}
 }
 
 extension CalendarViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let count = fitnessLogs.count
+		let count = DatabaseManager.shared.rowCount(forDate: selectedDate)
 		if count > 0 {
 			addItemMessageLabel.isHidden = true
 		} else {
@@ -159,8 +160,9 @@ extension CalendarViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withType: FitRecordTableViewCell.self, for: indexPath)
-		let target = fitnessLogs[indexPath.row]
-		cell.configure(with: target)
+		if let target = DatabaseManager.shared.fitnessLogs(for: selectedDate)?[indexPath.row] {
+			cell.configure(with: target)
+		}
 		return cell
 	}
 }
@@ -168,9 +170,9 @@ extension CalendarViewController: UITableViewDataSource {
 extension CalendarViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.selectedIndexPath = indexPath
-		let target = fitnessLogs[indexPath.row]
+		let target = DatabaseManager.shared.fitnessLog(for: indexPath)
 		let mainTabBarController = parent?.parent
-		guard let date = target.date else { return }
+		guard let date = target?.date else { return }
 		let composeFitRecordVC = ComposeFitRecordViewController(date: date)
 		composeFitRecordVC.delegate = self
 		composeFitRecordVC.fitnessLogEntity = target
@@ -185,10 +187,11 @@ extension CalendarViewController: UITableViewDelegate {
 	) -> UIContextMenuConfiguration? {
 		return UIContextMenuConfiguration(actionProvider:  { _ in
 			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-				let target = self.fitnessLogs[indexPath.row]
-				self.fitnessLogs.remove(at: indexPath.row)
-				DatabaseManager.shared.delete(entity: target)
-				tableView.deleteRows(at: [indexPath], with: .automatic)
+				if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
+					DatabaseManager.shared.deleteRow(fitnessLog: target)
+					DatabaseManager.shared.deleteSection(forSection: indexPath.section)
+					tableView.deleteRows(at: [indexPath], with: .automatic)
+				}
 			}
 			
 			return UIMenu(title: "", children: [deleteAction])
