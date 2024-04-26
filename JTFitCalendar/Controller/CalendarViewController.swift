@@ -189,7 +189,7 @@ extension CalendarViewController: UITableViewDelegate {
 			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
 				if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
 					DatabaseManager.shared.deleteRow(fitnessLog: target)
-					DatabaseManager.shared.deleteSection(forSection: indexPath.section)
+					DatabaseManager.shared.deleteSectionIfNeeded(forSection: indexPath.section)
 					tableView.deleteRows(at: [indexPath], with: .automatic)
 				}
 			}

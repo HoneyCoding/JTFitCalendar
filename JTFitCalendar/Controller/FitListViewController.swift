@@ -98,7 +98,7 @@ extension FitListViewController: UITableViewDelegate {
 				if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
 					DatabaseManager.shared.deleteRow(fitnessLog: target)
 					if DatabaseManager.shared.rowCount(forSection: indexPath.section) == 0 {
-						DatabaseManager.shared.deleteSection(forSection: indexPath.section)
+						DatabaseManager.shared.deleteSectionIfNeeded(forSection: indexPath.section)
 						tableView.deleteSections(IndexSet(integer: indexPath.section), with: .automatic)
 					} else {
 						tableView.deleteRows(at: [indexPath], with: .automatic)
