@@ -22,8 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let window = UIWindow(windowScene: scene)
 		window.backgroundColor = UIColor.jtBackgroundColor
 		let navigationController = UINavigationController(rootViewController: MainTabBarController())
+		// navigationController의 navigationBar는 숨김.
 		navigationController.isNavigationBarHidden = true
+		
+		// Window의 rootViewController를 UINavigationController로 설정.
 		window.rootViewController = navigationController
+		// Window의 tintColor를 primaryColor로 설정
 		window.tintColor = UIColor.primaryColor
 		window.makeKeyAndVisible()
 		self.window = window
