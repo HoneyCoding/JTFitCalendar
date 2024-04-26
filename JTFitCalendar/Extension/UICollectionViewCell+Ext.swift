@@ -8,6 +8,7 @@
 import UIKit
 
 extension UICollectionViewCell {
+	/// Cell의 identifier이다.
 	static var identifier: String {
 		return String(describing: Self.self)
 	}
