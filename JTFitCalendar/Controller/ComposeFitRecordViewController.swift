@@ -10,12 +10,17 @@ import SnapKit
 import Then
 import UIKit
 
+/// ComposeFitRecordViewController에 대한 Delegate이다.
 protocol ComposeFitRecordViewControllerDelegate: AnyObject {
+	
+	/// ComposeFitRecordViewController에서 save button을 탭하면 실행되는 함수이다.
 	func composeFitRecordViewController(
 		_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem
 	)
 }
 
+
+/// FitnessLog를 추가하는 화면에 대한 ViewController이다.
 class ComposeFitRecordViewController: UIViewController {
 	
 	// MARK: - View Properties
@@ -157,8 +162,10 @@ class ComposeFitRecordViewController: UIViewController {
 	}
 	
 	private let fitRecordScrollView: UIScrollView = UIScrollView()
+	// Scroll View의 Content View이다.
 	private let fitRecordScrollContentView: UIView = UIView()
 	
+	// 값이 nil이면 추가 모드, 값이 있으면 수정 모드이다.
 	var fitnessLogEntity: FitnessLogEntity?
 	weak var delegate: ComposeFitRecordViewControllerDelegate?
 	
@@ -175,6 +182,7 @@ class ComposeFitRecordViewController: UIViewController {
 		super.init(nibName: nil, bundle: nil)
 	}
 	
+	// 해당 Initializer는 스토리보드에서 해당 클래스를 사용할 때 실행된다. Storyboard를 사용한 경우를 배제하였으므로 fatalError를 발생시켰다.
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -184,6 +192,7 @@ class ComposeFitRecordViewController: UIViewController {
 		super.viewDidLoad()
 		setupViews()
 		
+		// fitnessLogEntity에 값이 있으면 각 View에 초기값을 설정해주는 코드이다.
 		if let fitnessLogEntity {
 			let exerciseDistanceText = fitnessLogEntity.exerciseDistance != 0.0 ? String(fitnessLogEntity.exerciseDistance) : nil
 			let consumedCalorieText = fitnessLogEntity.consumedCalorie != 0.0 ? String(fitnessLogEntity.consumedCalorie) : nil
@@ -344,6 +353,7 @@ class ComposeFitRecordViewController: UIViewController {
 	}
 	
 	@objc func saveButtonTapped(_ sender: UIBarButtonItem) {
+		// 값을 Save 가능한 상태인지 검증하는 if문이다.
 		if fitImageView.image == nil,
 		   activityTimeTextField.text?.isEmpty == true,
 		   activityDistanceTextField.text?.isEmpty == true,
@@ -358,6 +368,7 @@ class ComposeFitRecordViewController: UIViewController {
 		
 		let fitnessResult = (activityResultTextView.text == activityResultTextViewPlaceholder) ? nil : activityResultTextView.text
 		
+		// fitnessLogEntity의 존재 여부에 따라 (수정 모드, 추가 모드) 코드를 분기하였다.
 		if let fitnessLogEntity {
 			DatabaseManager.shared.updateFitnessLog(
 				entity: fitnessLogEntity,
@@ -382,7 +393,9 @@ class ComposeFitRecordViewController: UIViewController {
 				fitnessResult: fitnessResult
 			)
 		}
+		// save Button이 눌렸을 때 delegate에서 composeFitRecordViewController(_, didTapSaveButton:)이 실행되도록 작성하였다.
 		delegate?.composeFitRecordViewController(self, didTapSaveButton: sender)
+		// save 버튼이 눌렸으므로 Navigation 화면이 pop 된다.
 		self.navigationController?.popViewController(animated: true)
 	}
 	
