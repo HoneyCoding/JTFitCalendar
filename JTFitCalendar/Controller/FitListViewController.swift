@@ -9,13 +9,16 @@ import SnapKit
 import Then
 import UIKit
 
+// Tab Bar의 두 번째 화면인 피트 리스트 화면에 대한 ViewController이다.
 class FitListViewController: UIViewController {
 	
+	// 화면 전체를 덮는 TableView이다.
 	private let tableView: UITableView = UITableView(frame: .zero, style: .grouped).then {
 		$0.separatorStyle = .none
 		$0.backgroundColor = UIColor.jtBackgroundColor
 	}
 	
+	// 마지막으로 선택된 cell의 indexPath이다.
 	var selectedIndexPath: IndexPath?
 	
 	override func viewDidLoad() {
@@ -25,6 +28,7 @@ class FitListViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		// 화면이 보여질 때마다 tableView를 reload한다.
 		tableView.reloadData()
 	}
 	
@@ -39,12 +43,15 @@ class FitListViewController: UIViewController {
 			make.edges.equalToSuperview()
 		}
 		
+		// tableView에 cell을 등록한다.
 		tableView.register(withType: FitRecordTableViewCell.self)
+		// tableView에 delegate와 dataSource를 등록한다.
 		tableView.dataSource = self
 		tableView.delegate = self
 	}
 }
 
+// MARK: - UITableViewDataSource
 extension FitListViewController: UITableViewDataSource {
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return DatabaseManager.shared.sectionCount
@@ -72,6 +79,7 @@ extension FitListViewController: UITableViewDataSource {
 		return cell
 	}
 	
+	// Header View의 Constraint를 설정해주고, Header View를 생성해주는 메서드이다.
 	fileprivate func createHeaderView(title: String) -> UIView? {
 		let headerView = UIView()
 		// titleLabel 생성 및 font 설정
@@ -89,10 +97,12 @@ extension FitListViewController: UITableViewDataSource {
 	}
 }
 
+// MARK: - UITableViewDelegate
 extension FitListViewController: UITableViewDelegate {
 	func tableView(
 		_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint
 	) -> UIContextMenuConfiguration? {
+		// Cell과 연결된 FitnessLogEntity를 삭제하는 메뉴 추가
 		return UIContextMenuConfiguration(actionProvider:  { _ in
 			let deleteAction = UIAction(title: "삭제", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
 				if let target = DatabaseManager.shared.fitnessLog(for: indexPath) {
@@ -110,6 +120,7 @@ extension FitListViewController: UITableViewDelegate {
 		})
 	}
 	
+	// Cell을 터치하면 터치한 Cell의 FitnessLogEntity의 수정 화면으로 이동하도록 기능 구현
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		tableView.deselectRow(at: indexPath, animated: true)
 		self.selectedIndexPath = indexPath
@@ -125,7 +136,9 @@ extension FitListViewController: UITableViewDelegate {
 	}
 }
 
+// MARK: - ComposeFitRecordViewControllerDelegate
 extension FitListViewController: ComposeFitRecordViewControllerDelegate {
+	// ComposeFitRecordViewController에서 save 버튼이 눌린 이후 마지막으로 선택된 cell이 reload되는 기능 구현
 	func composeFitRecordViewController(_ viewController: ComposeFitRecordViewController, didTapSaveButton: UIBarButtonItem) {
 		if let selectedIndexPath {
 			tableView.reloadRows(at: [selectedIndexPath], with: .automatic)
